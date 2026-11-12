@@ -1,0 +1,41 @@
+name: Apply approved research proposal
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: research-approval-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    if: github.event.label.name == 'publication-approved' && !github.event.issue.pull_request && github.event.issue.state == 'open'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      issues: write
+      actions: write
+    steps:
+      - name: Check out trusted main branch
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test proposal handling
+        run: python -m unittest discover -s tests -v
+      - name: Configure commit identity
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Validate approval, apply proposal and request publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/approve_publication.py
