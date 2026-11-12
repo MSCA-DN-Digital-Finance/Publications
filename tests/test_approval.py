@@ -59,6 +59,9 @@ class ApprovalIntegrationTests(unittest.TestCase):
             shutil.copytree(source / name, self.root / name, ignore=shutil.ignore_patterns('__pycache__'))
         for name in ['README.md', 'update_README.py', '.gitignore']:
             shutil.copy2(source / name, self.root / name)
+        # Approval tests start with empty catalogues, independent of real submissions.
+        for path in (self.root / 'data').glob('*.csv'):
+            path.write_text(path.read_text().splitlines()[0] + '\n')
         self.remote = Path(self.temp.name) / 'remote.git'
         self.git('init', '-b', 'main')
         self.git('config', 'user.name', 'Test'); self.git('config', 'user.email', 'test@example.org')

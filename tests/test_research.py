@@ -18,6 +18,16 @@ class ResearchTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
         shutil.copytree(build_site.ROOT / 'data', self.root / 'data')
+        # Fixtures must not assume a particular live catalogue size or author list.
+        fixture = {'id':'sample-publication', 'irp_numbers':'14', 'researcher_names':'Researcher One', 'title':'Sample forecasting research', 'authors':'Researcher One;Pablo Mollá', 'year':'2025', 'subjects':'forecasting', 'type':'journal-article', 'venue':'Test Journal', 'access':'unknown', 'doi':'10.1234/example', 'link':'https://example.org/paper'}
+        for filename, records in [('publications.csv',[fixture]),('working-papers.csv',[])]:
+            target = self.root / 'data' / filename
+            with target.open(newline='') as f:
+                fields = csv.DictReader(f).fieldnames
+            with target.open('w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=fields, lineterminator='\n')
+                writer.writeheader()
+                writer.writerows({key: record.get(key,'') for key in fields} for record in records)
         for module in [build_site, import_proposal]:
             patcher = patch.object(module, 'ROOT', self.root); patcher.start(); self.addCleanup(patcher.stop)
         self.original = build_site.inventory()['publications'][0]
@@ -72,8 +82,8 @@ class ResearchTests(unittest.TestCase):
         self.assertIn('&lt;script&gt;',rendered)
         citation=build_site.bibtex(self.original)
         self.assertIn('Mollá',citation)
-        self.assertIn('10.1016/j.knosys.2025.114449',citation)
-        self.assertIn('journal = {Knowledge-Based Systems}',citation)
+        self.assertIn('10.1234/example',citation)
+        self.assertIn('journal = {Test Journal}',citation)
 
 if __name__ == '__main__':
     unittest.main()
