@@ -78,7 +78,7 @@ Enable **Settings → Pages → Source → GitHub Actions**. `pages.yml` builds/
 The first paper's citation was verified using [Crossref's DOI record](https://api.crossref.org/works/10.1016/j.knosys.2025.114449) and [Elsevier's article metadata](https://api.elsevier.com/content/article/pii/S0950705125014881). The IRP 14 association was supplied by the author; subject tags are editorial. No working papers were invented to populate the empty section.
 
 <!-- BEGIN RESEARCH -->
-7 publication/preprint record(s); 0 working paper(s).
+9 publication/preprint record(s); 0 working paper(s).
 
 | Title | IRP | Year | Type |
 | --- | --- | --- | --- |
@@ -89,4 +89,6 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | [Identifiable Regime Detection in Pension-Fund Networks via Sticky Hidden Markov Models](https://zenodo.org/records/24191657) | 11 | 2026 | journal-article |
 | [A Multimodal Vision-Language Framework for Financial Anomaly Detection](https://zenodo.org/records/24194418) | 7;8;12 | 2026 | conference-paper |
 | [Quantile regression–PCA framework in portfolio selection process](https://zenodo.org/records/24195204) | 11 | 2026 | journal-article |
+| [Can Foundation Models Manage Risk? Zero-Shot VaR and ES Forecasting with Conformal Calibration in CEE Markets](https://zenodo.org/records/24196056) | 7;8;12 | 2026 | journal-article |
+| [Cryptocurrencies in a Changing Financial Landscape: A Systematic Review](https://zenodo.org/records/24196269) | 8 | 2025 | conference-paper |
 <!-- END RESEARCH -->
