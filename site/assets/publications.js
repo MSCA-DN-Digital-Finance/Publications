@@ -6,6 +6,8 @@
   const normalizeDOI=value=>value.trim().replace(/^https?:\/\/(?:dx\.)?doi\.org\//i,'').toLowerCase();
   const validURL=value=>{try{return ['http:','https:'].includes(new URL(value).protocol)&&!(/\s/.test(value));}catch{return false;}};
   const all=[...data.publications.map(r=>({...r,kind:'publication'})),...data.working_papers.map(r=>({...r,kind:'working-paper'}))];
+  const people=new Map((data.people||[]).map(p=>[p.number,p]));
+  const irpLabel=number=>{const p=people.get(number);return p?'IRP '+number+' · '+(p.candidate?.name||p.short_title):'IRP '+number;};
   const results=document.getElementById('records');
   if(results){
     const kind=document.body.dataset.collection;
@@ -18,7 +20,7 @@
     for(const [control,key] of [['subject','subjects'],['irp','irp_numbers'],['year','year']]){
       const select=document.getElementById(control+'-filter');
       const values=[...new Set(rows.flatMap(r=>split(r[key])))].sort((a,b)=>control==='year'?b.localeCompare(a):a.localeCompare(b,undefined,{numeric:true}));
-      values.forEach(value=>{const option=document.createElement('option');option.value=value;option.textContent=control==='irp'?'IRP '+value:value;select.append(option);});
+      values.forEach(value=>{const option=document.createElement('option');option.value=value;option.textContent=control==='irp'?irpLabel(value):value;select.append(option);});
     }
     controls.forEach(name=>{const control=document.getElementById(name+'-filter');if(params.has(name))control.value=params.get(name);control.addEventListener('change',render);});
     const counts=new Map();rows.forEach(r=>new Set(split(r.subjects)).forEach(s=>counts.set(s,(counts.get(s)||0)+1)));
@@ -57,6 +59,13 @@
     if(['publication','working-paper'].includes(params.get('kind')))control('kind').value=params.get('kind');
     const existing=all.find(r=>r.kind===params.get('kind')&&r.id===params.get('id'));
     if(existing){for(const element of form.elements){if(element.name&&existing[element.name]!==undefined)element.value=existing[element.name];}control('action').value='update';}
+    const irpInput=control('irp_numbers');
+    const irpChoices=document.createElement('datalist');irpChoices.id='irp-choices';
+    for(const p of people.values()){const option=document.createElement('option');option.value=p.number;option.label=irpLabel(p.number);irpChoices.append(option);}
+    irpInput.setAttribute('list','irp-choices');form.append(irpChoices);
+    function assignCandidate(){const numbers=split(irpInput.value);if(numbers.length&&numbers.every(n=>people.has(n))){control('researcher_names').value=numbers.map(n=>people.get(n).candidate?.name||'').filter(Boolean).join(';');}}
+    irpInput.addEventListener('change',assignCandidate);
+    if(params.get('irp')&&people.has(params.get('irp'))&&!existing){irpInput.value=params.get('irp');assignCandidate();}
     function sync(){
       const kind=control('kind').value;
       document.querySelectorAll('[data-for]').forEach(field=>{field.hidden=field.dataset.for!==kind;field.querySelectorAll('input,select,textarea').forEach(input=>input.disabled=field.hidden);});

@@ -16,6 +16,7 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 from build_site import ROOT, inventory, normalized_doi
+from directory import load as load_directory, match_creators
 
 COMMUNITY = 'digitalfinance'
 API = 'https://zenodo.org/api/records'
@@ -108,7 +109,7 @@ def fetch_records():
     raise ValueError('Community exceeds the sync pagination limit')
 
 
-def publication(record, fields):
+def publication(record, fields, projects=None):
     metadata = record['metadata']
     rid = str(record['id'])
     concept = str(record.get('conceptrecid') or rid)
@@ -148,7 +149,14 @@ def publication(record, fields):
         access='open-access' if metadata.get('access_right') == 'open' else 'unknown',
         license=text((metadata.get('license') or {}).get('id')),
     )
-    # Candidate identities and IRPs require editorial knowledge; authors are not all candidates.
+    matched = match_creators(metadata['creators'], load_directory() if projects is None else projects)
+    if matched:
+        row['irp_numbers'] = ';'.join(p['number'] for p in matched)
+        row['researcher_names'] = ';'.join(p['candidate']['name'] for p in matched)
+        if len(matched) == 1:
+            candidate = matched[0]['candidate']
+            row['researcher_url'] = candidate['links'].get('ORCID') or candidate['source_url']
+        row['provenance'] += ' Candidate/IRP identities matched by ORCID or exact full name against the shared people dictionary.'
     return row
 
 
@@ -158,10 +166,11 @@ def sync_records(records, *, root=None, write=False):
     with (root / 'data/publications.csv').open(encoding='utf-8', newline='') as source:
         fields = csv.DictReader(source).fieldnames
     rows, concepts, dois = [], set(), set()
+    projects = load_directory(root)
     # A DOI may have been deposited separately more than once. Prefer its newest metadata.
     ordered = sorted(records, key=lambda r: (str(r.get('modified') or r.get('updated') or ''), str(r['id'])), reverse=True)
     for record in ordered:
-        row = publication(record, fields)
+        row = publication(record, fields, projects)
         if row['id'] in concepts:
             raise ValueError('Multiple versions of one concept returned; refusing ambiguous sync')
         concepts.add(row['id'])

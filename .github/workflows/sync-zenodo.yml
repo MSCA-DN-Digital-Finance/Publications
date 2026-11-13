@@ -39,11 +39,12 @@ jobs:
           for attempt in 1 2 3; do
             git fetch origin main
             git reset --hard origin/main
+            python scripts/directory.py --sync
             python scripts/sync_zenodo.py --write
             python update_README.py
             python -m unittest discover -s tests -v
             python scripts/build_site.py
-            git add -- data/zenodo-publications.csv README.md
+            git add -- data/people.json data/zenodo-publications.csv README.md
             if git diff --cached --quiet; then
               echo 'Zenodo publication metadata is unchanged.'
               exit 0

@@ -1,0 +1,313 @@
+{
+  "schema_version": 1,
+  "source_url": "https://beta.digital-finance-msca.com/people/",
+  "projects": [
+    {
+      "number": "1",
+      "title": "Strengthening European financial service providers through applicable reinforcement learning",
+      "short_title": "Applicable reinforcement learning",
+      "host": "University of Twente",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-1/",
+      "candidate": {
+        "id": "mathis-jander",
+        "name": "Mathis Jander",
+        "affiliations": [
+          "University of Twente"
+        ],
+        "research_interests": "Reinforcement Learning, Machine Learning, Time Series, Explainable Artificial Intelligence",
+        "orcid": "",
+        "links": {},
+        "source_url": "https://beta.digital-finance-msca.com/people/mathis-jander/"
+      }
+    },
+    {
+      "number": "2",
+      "title": "Modelling green credit scores for a network of retail and business clients",
+      "short_title": "Green credit scores",
+      "host": "University of Twente",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-2/",
+      "candidate": {
+        "id": "manuele-massei",
+        "name": "Manuele Massei",
+        "affiliations": [
+          "University of Twente"
+        ],
+        "research_interests": "Machine learning, systemic risk, credit risk, probability of default, climate risk, extreme events",
+        "orcid": "0009-0006-3277-9794",
+        "links": {
+          "LinkedIn": "http://www.linkedin.com/in/manuele-massei-b914b2215",
+          "ORCID": "https://orcid.org/0009-0006-3277-9794"
+        },
+        "source_url": "https://beta.digital-finance-msca.com/people/manuele-massei/"
+      }
+    },
+    {
+      "number": "3",
+      "title": "Machine learning for digital finance",
+      "short_title": "Machine learning for digital finance",
+      "host": "University of Twente",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-3/",
+      "candidate": null
+    },
+    {
+      "number": "4",
+      "title": "A recommender system to re-orient investments towards more sustainable technologies and businesses",
+      "short_title": "Sustainable investment recommender",
+      "host": "University of Twente",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-4/",
+      "candidate": {
+        "id": "mohamed-faid",
+        "name": "Mohamed Faid",
+        "affiliations": [
+          "University of Twente"
+        ],
+        "research_interests": "Machine Learning, System Design, Mathematics",
+        "orcid": "",
+        "links": {},
+        "source_url": "https://beta.digital-finance-msca.com/people/mohamed-faid/"
+      }
+    },
+    {
+      "number": "5",
+      "title": "Fraud detection in financial networks",
+      "short_title": "Fraud detection in financial networks",
+      "host": "WU Vienna University of Economics and Business",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-5/",
+      "candidate": null
+    },
+    {
+      "number": "6",
+      "title": "Collaborative learning across data silos",
+      "short_title": "Collaborative learning across data silos",
+      "host": "WU Vienna University of Economics and Business",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-6/",
+      "candidate": null
+    },
+    {
+      "number": "7",
+      "title": "Risk index for cryptos",
+      "short_title": "Risk index for cryptos",
+      "host": "Poznań University of Economics and Business",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-7/",
+      "candidate": {
+        "id": "stefan-gaman",
+        "name": "Stefan Gaman",
+        "affiliations": [
+          "Poznań University of Economics and Business"
+        ],
+        "research_interests": "",
+        "orcid": "",
+        "links": {
+          "LinkedIn": "https://www.linkedin.com/in/%C5%9Ftefan-g%C4%83man"
+        },
+        "source_url": "https://beta.digital-finance-msca.com/people/stefan-gaman/"
+      }
+    },
+    {
+      "number": "8",
+      "title": "Detecting anomalies and dependence structures in high dimensional, high frequency financial data",
+      "short_title": "Anomalies in high-frequency data",
+      "host": "Bucharest University of Economic Studies",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-8/",
+      "candidate": {
+        "id": "david-siang-li-jheng",
+        "name": "David Siang-Li Jheng",
+        "affiliations": [
+          "Bucharest University of Economic Studies (ASE)"
+        ],
+        "research_interests": "High-frequency data analysis, anomaly detection, tail risk and dependence modeling, machine learning in finance, FinTech innovation, option pricing",
+        "orcid": "0009-0006-2379-4212",
+        "links": {
+          "LinkedIn": "https://www.linkedin.com/in/siang-li-jheng-bb3103334/",
+          "Google Scholar": "https://scholar.google.com/citations?user=VX_uWzIAAAAJ&hl=zh-TW",
+          "ORCID": "https://orcid.org/0009-0006-2379-4212"
+        },
+        "source_url": "https://beta.digital-finance-msca.com/people/david-siang-li-jheng/"
+      }
+    },
+    {
+      "number": "9",
+      "title": "Audience-dependent explanations",
+      "short_title": "Audience-dependent explanations",
+      "host": "University of Naples Federico II",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-9/",
+      "candidate": {
+        "id": "patricia-marcella-evite",
+        "name": "Patricia Marcella Evite",
+        "affiliations": [
+          "University of Naples Federico II"
+        ],
+        "research_interests": "Blockchain, AI, Social and Solidarity Economy, Sustainable Finance, Economic and Financial Literacy",
+        "orcid": "0009-0005-1487-5021",
+        "links": {
+          "LinkedIn": "https://www.linkedin.com/in/patriciaevite",
+          "Google Scholar": "https://scholar.google.com/citations?user=rJDOs98AAAAJ&hl=en&oi=ao",
+          "ORCID": "https://orcid.org/0009-0005-1487-5021"
+        },
+        "source_url": "https://beta.digital-finance-msca.com/people/patricia-marcella-evite/",
+        "orcid_source": "https://zenodo.org/records/24165581"
+      }
+    },
+    {
+      "number": "10",
+      "title": "Experimenting with Green AI to reduce processing time and contribute to creating a low-carbon economy",
+      "short_title": "Green AI",
+      "host": "University of Naples Federico II",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-10/",
+      "candidate": {
+        "id": "ismail-elbouknify",
+        "name": "Ismail Elbouknify",
+        "affiliations": [
+          "University of Naples Federico II"
+        ],
+        "research_interests": "Green AI in finance, Advanced Statistical Modeling, Risk Management",
+        "orcid": "",
+        "links": {},
+        "source_url": "https://beta.digital-finance-msca.com/people/ismail-elbouknify/"
+      }
+    },
+    {
+      "number": "11",
+      "title": "Applications of Agent-based Models (ABM) to analyse finance growth in a sustainable manner over a long-term period",
+      "short_title": "Agent-based models",
+      "host": "Kaunas University of Technology",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-11/",
+      "candidate": {
+        "id": "megang-nkamga-junile-staures",
+        "name": "Megang Nkamga Junile Staures",
+        "affiliations": [
+          "Kaunas University of Technology"
+        ],
+        "research_interests": "Agent-Based Modeling (ABM) , Sustainable Finance, ESG, Risk Management, Computational Methods, Predictive Analytics",
+        "orcid": "0009-0001-8039-4358",
+        "links": {
+          "LinkedIn": "https://www.linkedin.com/in/megangjunile/",
+          "ORCID": "https://orcid.org/0009-0001-8039-4358"
+        },
+        "source_url": "https://beta.digital-finance-msca.com/people/megang-nkamga-junile-staures/",
+        "orcid_source": "https://zenodo.org/records/24191657"
+      }
+    },
+    {
+      "number": "12",
+      "title": "Developing industry-ready automated trading systems to conduct EcoFin analysis using deep learning algorithms",
+      "short_title": "Automated trading systems",
+      "host": "Bucharest University of Economic Studies",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-12/",
+      "candidate": {
+        "id": "rahul-tak",
+        "name": "Rahul Tak",
+        "affiliations": [
+          "Bucharest University of Economic Studies (ASE)"
+        ],
+        "research_interests": "Complex Dynamic Systems, AI for timeseries, industrial application of ML, XAI, network analysis and ESG",
+        "orcid": "",
+        "links": {
+          "LinkedIn": "https://www.linkedin.com/in/rahultak99",
+          "Google Scholar": "https://scholar.google.com/citations?user=Qgh7cMQAAAAJ&hl=en"
+        },
+        "source_url": "https://beta.digital-finance-msca.com/people/rahul-tak/"
+      }
+    },
+    {
+      "number": "13",
+      "title": "Predicting financial trends using text mining and NLP",
+      "short_title": "Text mining and NLP",
+      "host": "Babeș-Bolyai University",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-13/",
+      "candidate": {
+        "id": "fulvio-raddi",
+        "name": "Fulvio Raddi",
+        "affiliations": [
+          "Babeș-Bolyai University (BBU)"
+        ],
+        "research_interests": "Econometrics, pricing derivatives, optimization, forecasting, statistics, central banking",
+        "orcid": "0009-0000-8503-5269",
+        "links": {
+          "LinkedIn": "https://www.linkedin.com/in/fulvio-raddi-87893a193/",
+          "ORCID": "https://orcid.org/0009-0000-8503-5269"
+        },
+        "source_url": "https://beta.digital-finance-msca.com/people/fulvio-raddi/"
+      }
+    },
+    {
+      "number": "14",
+      "title": "Challenges and opportunities for the uptaking of technological development by industry",
+      "short_title": "Technology uptake by industry",
+      "host": "Cardo AI",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-14/",
+      "candidate": {
+        "id": "owen-chaffard",
+        "name": "Owen Chaffard",
+        "affiliations": [
+          "Cardo AI",
+          "University of Kaiserslautern-Landau (UKL)"
+        ],
+        "research_interests": "Time series forecasting, machine learning, digital finance",
+        "orcid": "0009-0005-5509-8652",
+        "links": {
+          "LinkedIn": "https://www.linkedin.com/in/owen-chaffard-65ba6120b/",
+          "Google Scholar": "https://scholar.google.com/citations?user=jGhPf-wAAAAJ&hl=en",
+          "ORCID": "https://orcid.org/0009-0005-5509-8652"
+        },
+        "source_url": "https://beta.digital-finance-msca.com/people/owen-chaffard/"
+      }
+    },
+    {
+      "number": "15",
+      "title": "Deep Generation of Financial Time Series",
+      "short_title": "Deep generation of time series",
+      "host": "Bucharest University of Economic Studies",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-15/",
+      "candidate": {
+        "id": "andrei-theodor-ginavar",
+        "name": "Andrei-Theodor Ginavar",
+        "affiliations": [
+          "Bucharest University of Economic Studies (ASE)"
+        ],
+        "research_interests": "A biography for Andrei-Theodor Ginavar has not been published yet.",
+        "orcid": "",
+        "links": {
+          "ResearchGate": "https://www.researchgate.net/profile/Andrei-Ginavar"
+        },
+        "source_url": "https://beta.digital-finance-msca.com/people/andrei-theodor-ginavar/"
+      }
+    },
+    {
+      "number": "16",
+      "title": "Investigating the utility of classical XAI methods in financial time series",
+      "short_title": "Classical XAI in time series",
+      "host": "Bern Business School",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-16/",
+      "candidate": {
+        "id": "jens-reil",
+        "name": "Jens Reil",
+        "affiliations": [
+          "Bern University of Applied Sciences (BFH)"
+        ],
+        "research_interests": "XAI, Machine Learning, Finance",
+        "orcid": "",
+        "links": {},
+        "source_url": "https://beta.digital-finance-msca.com/people/jens-reil/"
+      }
+    },
+    {
+      "number": "17",
+      "title": "Fair Algorithmic Design and Portfolio Optimization under Sustainability Concerns",
+      "short_title": "Fair algorithmic design",
+      "host": "Bern Business School",
+      "source_url": "https://beta.digital-finance-msca.com/research/irp-17/",
+      "candidate": {
+        "id": "rebecca-di-francesco",
+        "name": "Rebecca Di Francesco",
+        "affiliations": [
+          "Bern University of Applied Sciences (BFH)"
+        ],
+        "research_interests": "AI, Finance, Sustainability",
+        "orcid": "",
+        "links": {},
+        "source_url": "https://beta.digital-finance-msca.com/people/rebecca-di-francesco/"
+      }
+    }
+  ]
+}

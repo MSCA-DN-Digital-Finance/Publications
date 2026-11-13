@@ -34,7 +34,13 @@ The importer requests only `publication` records and their latest versions, with
 
 The cache mirrors the current community publications: removed records disappear from the feed on the next successful sync. Curated publications and working papers are preserved. Failed requests, incomplete pagination and invalid metadata leave the cache unchanged. The complete candidate cache is validated before atomic replacement. A successful sync refreshes this index, commits changed data and explicitly dispatches Pages, since bot commits do not trigger push workflows. A rerun also requests deployment when metadata is unchanged.
 
-Zenodo does not reliably identify IRP numbers or which authors are doctoral candidates. These fields stay blank and the site displays **IRP not assigned**. Missing subjects or venues also stay blank; source metadata is not inferred. To enrich a feed record, use **Suggest an update**, supply the required curated fields (including IRP, candidate names and subjects), and use the existing approval process. This creates a curated override with the same stable ID that future syncs preserve. Correct bibliographic errors in Zenodo to refresh the source, or create an override for the catalogue. Do not edit the generated cache by hand.
+Zenodo creators are matched against the shared candidate dictionary by ORCID or exact full name (allowing name order, punctuation and accent differences). This fills `irp_numbers`, `researcher_names` and the public researcher link. Initials, partial names, conflicting ORCIDs and ambiguous names are not guessed; unmatched records retain blank assignments and display **IRP not assigned**. Missing subjects or venues also stay blank. To enrich a feed record, use **Suggest an update** and the existing approval process. This creates a curated override with the same stable ID that future syncs preserve. Correct bibliographic errors in Zenodo to refresh the source, or create an override for the catalogue. Do not edit the generated cache by hand.
+
+## Shared people and IRP profiles
+
+`data/people.json` is a validated snapshot of the organization hub's [canonical directory](https://github.com/MSCA-DN-Digital-Finance/MSCA-DN-Digital-Finance.github.io/blob/main/data/people.json), built from the network website. The daily Zenodo workflow refreshes it before importing records. To refresh locally, run `python3 scripts/directory.py --sync` after the canonical dictionary is merged into the hub's `main` branch. No credentials are needed for this public read.
+
+Site builds resolve candidate names and project titles from IRP numbers, so the publication and working-paper pages, filters and exports use the same names as the data catalogue. The published `/data/research.json` feed contains both collections for the hub's individual IRP pages. Downloaded publication CSVs also include `irp_titles`. Every record links back to its IRP profile at `/irps/irp-N.html`. Contribution forms suggest known IRPs and fill the corresponding candidate names. Research summaries are edited in the hub repository, separately from paper metadata.
 
 To activate the schedule, merge the workflow into `main`, enable GitHub Actions and allow its `GITHUB_TOKEN` to write repository contents and dispatch workflows. Branch rules must permit the bot's commits; the workflow does not bypass protections. Pages must already be configured as described below. The schedule uses UTC year-round, and GitHub may delay scheduled runs.
 
@@ -77,8 +83,8 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | Title | IRP | Year | Type |
 | --- | --- | --- | --- |
 | [Enhancing large language models for bitcoin time series forecasting](https://www.sciencedirect.com/science/article/pii/S0950705125014881) | 14 | 2025 | journal-article |
-| [Hierarchy Aware Probabilistic Forecasting : Methodology and Application to Private Debt Market](https://zenodo.org/records/24163414) |  | 2025 | preprint |
-| [Finance professionals' demands on AI: beyond accuracy and explainability](https://zenodo.org/records/24165581) |  | 2026 | journal-article |
-| [Investigating explainable artificial intelligence in financial time series modeling](https://zenodo.org/records/24165806) |  | 2026 | journal-article |
-| [Identifiable Regime Detection in Pension-Fund Networks via Sticky Hidden Markov Models](https://zenodo.org/records/24191657) |  | 2026 | journal-article |
+| [Hierarchy Aware Probabilistic Forecasting : Methodology and Application to Private Debt Market](https://zenodo.org/records/24163414) | 14 | 2025 | preprint |
+| [Finance professionals' demands on AI: beyond accuracy and explainability](https://zenodo.org/records/24165581) | 9 | 2026 | journal-article |
+| [Investigating explainable artificial intelligence in financial time series modeling](https://zenodo.org/records/24165806) | 16 | 2026 | journal-article |
+| [Identifiable Regime Detection in Pension-Fund Networks via Sticky Hidden Markov Models](https://zenodo.org/records/24191657) | 11 | 2026 | journal-article |
 <!-- END RESEARCH -->

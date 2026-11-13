@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import shutil
 from urllib.parse import quote, urlsplit
+from directory import enrich, load as load_directory
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {'publication': 'publications.csv', 'working-paper': 'working-papers.csv'}
@@ -137,6 +138,8 @@ def render_record(row, kind, publications=None):
     title = link(row.get('link'), row['title']) if row.get('link') else e(row['title'])
     venue = ' · '.join(filter(None, [row.get('venue'), row.get('year')])) if is_pub else ' · '.join(filter(None, [status, row.get('year')]))
     facts = fact('Doctoral candidate(s)', row['researcher_names']) + fact('IRP', irps) + fact('Authors', '; '.join(split(row['authors'])))
+    if row.get('irp_titles'):
+        facts += fact('Research project', row['irp_titles'])
     if is_pub:
         facts += fact('Publication type', status) + fact('Journal / conference / repository', row.get('venue')) + fact('Year / publication date', ' / '.join(filter(None, [row.get('year'), row.get('publication_date')])))
         facts += fact('Volume / issue', ' / '.join(filter(None, [row.get('volume'), row.get('issue')]))) + fact('Pages / article number', row.get('pages')) + fact('DOI', row.get('doi')) + fact('Access', {'open-access': 'Open access', 'subscription': 'Subscription / institutional', 'unknown': 'Not documented'}[row['access']]) + fact('Licence', row.get('license'))
@@ -148,6 +151,7 @@ def render_record(row, kind, publications=None):
             facts += '<div><dt>Related publications</dt><dd>' + '<br>'.join(related_links) + '</dd></div>'
     facts += fact('Last metadata update', row.get('last_updated'))
     links = link(row.get('preprint_url'), 'Preprint') + link(row.get('code_url'), 'Code') + link(row.get('data_url'), 'Data') + link(row.get('researcher_url'), 'Researcher profile')
+    links += ''.join(link('/irps/irp-' + n + '.html', 'IRP ' + n + ' profile') for n in split(row['irp_numbers']) if n.isdigit())
     if row.get('doi'):
         links += link('https://doi.org/' + quote(normalized_doi(row['doi']), safe='/'), 'DOI')
     if is_pub:
@@ -159,12 +163,14 @@ def render_record(row, kind, publications=None):
 
 def build():
     data = inventory()
+    projects = load_directory(ROOT)
+    data = {key: [enrich(row, projects) for row in rows] for key, rows in data.items()}
     out = ROOT / '_site'
     if out.exists():
         shutil.rmtree(out)
     shutil.copytree(ROOT / 'site', out, ignore=shutil.ignore_patterns('config.json'))
     config = json.loads((ROOT / 'site/config.json').read_text())
-    payload = json.dumps({**data, 'config': config}, ensure_ascii=False).replace('<', '\\u003c')
+    payload = json.dumps({**data, 'people': projects, 'config': config}, ensure_ascii=False).replace('<', '\\u003c')
     for page in out.glob('*.html'):
         template = page.read_text()
         is_working = 'data-collection="working-paper"' in template
@@ -177,12 +183,16 @@ def build():
         page.write_text(template, encoding='utf-8')
     shutil.copytree(ROOT / 'data', out / 'data')
     # Publish the complete catalogue in the downloadable CSV as well as the page.
-    with (out / 'data/publications.csv').open('w', newline='', encoding='utf-8') as f:
-        with (ROOT / 'data/publications.csv').open(newline='', encoding='utf-8') as source:
+    for kind, collection in [('publication', 'publications'), ('working-paper', 'working_papers')]:
+        with (ROOT / 'data' / FILES[kind]).open(newline='', encoding='utf-8') as source:
             fields = csv.DictReader(source).fieldnames
-        writer = csv.DictWriter(f, fieldnames=fields, lineterminator='\n')
-        writer.writeheader()
-        writer.writerows(data['publications'])
+        if 'irp_titles' not in fields:
+            fields.append('irp_titles')
+        with (out / 'data' / FILES[kind]).open('w', newline='', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, fieldnames=fields, lineterminator='\n')
+            writer.writeheader()
+            writer.writerows(data[collection])
+    (out / 'data/research.json').write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     (out / 'data/publications.bib').write_text('\n'.join(bibtex(r) for r in data['publications']), encoding='utf-8')
     (out / 'citations').mkdir()
     for row in data['publications']:

@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import build_site
 import import_proposal
 import sync_zenodo as zenodo
+import directory
 
 
 def record(rid=101, concept=100, doi='10.1234/example'):
@@ -151,6 +152,19 @@ class SyncTests(unittest.TestCase):
         row = build_site.inventory()['publications'][0]
         self.assertEqual(row['type'], 'preprint')
         self.assertEqual(row['preprint_url'], row['link'])
+
+    def test_sync_populates_candidate_and_irp_from_shared_dictionary(self):
+        project = next(p for p in directory.load() if p['candidate'])
+        import copy
+        project = copy.deepcopy(project)
+        project['number'] = '14'
+        project['candidate'].update(name='Researcher Mollá', orcid='')
+        directory.write_json(self.root / 'data/people.json', {'schema_version': 1, 'projects': [project]})
+        self.sync([record()])
+        row = build_site.inventory()['publications'][0]
+        self.assertEqual(row['irp_numbers'], '14')
+        self.assertEqual(row['researcher_names'], 'Researcher Mollá')
+        self.assertIn('exact full name', row['provenance'])
 
     def test_build_exports_combined_catalogue_and_approved_update_survives_sync(self):
         self.sync([record()])
