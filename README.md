@@ -38,6 +38,8 @@ Zenodo creators are matched against the shared candidate dictionary by ORCID or 
 
 ## Shared people and IRP profiles
 
+The **Open Software** catalogue indexes code supporting published and working papers. Software records can link this catalogue's stable paper IDs or external paper URLs. Paper details display reverse links to matching software when the published software feed is available; publication builds continue to work independently.
+
 `data/people.json` is a validated snapshot of the organization hub's [canonical directory](https://github.com/MSCA-DN-Digital-Finance/MSCA-DN-Digital-Finance.github.io/blob/main/data/people.json), built from the network website. The daily Zenodo workflow refreshes it before importing records. To refresh locally, run `python3 scripts/directory.py --sync` after the canonical dictionary is merged into the hub's `main` branch. No credentials are needed for this public read.
 
 Site builds resolve candidate names and project titles from IRP numbers, so the publication and working-paper pages, filters and exports use the same names as the data catalogue. The published `/data/research.json` feed contains both collections for the hub's individual IRP pages. Downloaded publication CSVs also include `irp_titles`. Every record links back to its IRP profile at `/irps/irp-N.html`. Contribution forms suggest known IRPs and fill the corresponding candidate names. Research summaries are edited in the hub repository, separately from paper metadata.

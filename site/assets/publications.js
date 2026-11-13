@@ -50,6 +50,23 @@
     document.addEventListener('click',async event=>{const button=event.target.closest('[data-copy]');if(!button)return;const url=new URL(location.href);url.hash=button.dataset.copy;try{await navigator.clipboard.writeText(url.href);button.textContent='Link copied';}catch{location.hash=button.dataset.copy;button.textContent='Copy the URL from your address bar';}});
     function route(){const match=location.hash.match(/^#(publication|working-paper)\/([a-z0-9-]+)$/);if(!match||match[1]!==kind)return;const card=cards.get(match[2]);if(card){reset();card.querySelector('details').open=true;card.scrollIntoView({block:'start'});}}
     addEventListener('hashchange',route);render();route();
+    // Software records are maintained independently; show current reverse links
+    // without making publication builds depend on another repository being online.
+    fetch('/Open_Software/data/software.json',{signal:AbortSignal.timeout(10000)}).then(async response=>{
+      if(!response.ok)return;
+      const software=(await response.json()).software;
+      if(!Array.isArray(software))return;
+      for(const row of rows){
+        const related=software.filter(item=>/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.id)&&(
+          split(item[kind==='publication'?'publication_ids':'working_paper_ids']).includes(row.id)||
+          split(item.paper_urls).some(url=>url===row.link||(row.doi&&url.toLowerCase()==='https://doi.org/'+normalizeDOI(row.doi)))));
+        if(!related.length)continue;
+        const section=document.createElement('section'),heading=document.createElement('h3'),list=document.createElement('ul');
+        heading.textContent='Related open software';section.className='related-software';section.append(heading,list);
+        related.forEach(item=>{const li=document.createElement('li'),link=document.createElement('a');link.href='/Open_Software/#software/'+item.id;link.textContent=item.name;li.append(link);list.append(li);});
+        cards.get(row.id).querySelector('details').append(section);
+      }
+    }).catch(()=>{});
   }
   const form=document.getElementById('research-form');
   if(form){
