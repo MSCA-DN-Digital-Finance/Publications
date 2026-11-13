@@ -18,6 +18,7 @@ class ResearchTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
         shutil.copytree(build_site.ROOT / 'data', self.root / 'data')
+        (self.root / 'data/zenodo-publications.csv').unlink(missing_ok=True)
         # Fixtures must not assume a particular live catalogue size or author list.
         fixture = {'id':'sample-publication', 'irp_numbers':'14', 'researcher_names':'Researcher One', 'title':'Sample forecasting research', 'authors':'Researcher One;Pablo Mollá', 'year':'2025', 'subjects':'forecasting', 'type':'journal-article', 'venue':'Test Journal', 'access':'unknown', 'doi':'10.1234/example', 'link':'https://example.org/paper'}
         for filename, records in [('publications.csv',[fixture]),('working-papers.csv',[])]:

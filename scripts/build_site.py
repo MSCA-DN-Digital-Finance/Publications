@@ -30,8 +30,8 @@ def validate_url(value):
     return parsed.scheme in {'http', 'https'} and bool(parsed.netloc) and not any(c.isspace() for c in value)
 
 
-def read_records(kind, root=None):
-    path = (root or ROOT) / 'data' / FILES[kind]
+def read_records(kind, root=None, *, zenodo=False):
+    path = (root or ROOT) / 'data' / ('zenodo-publications.csv' if zenodo else FILES[kind])
     with path.open(encoding='utf-8-sig', newline='') as f:
         reader = csv.DictReader(f)
         if not reader.fieldnames or len(reader.fieldnames) != len(set(reader.fieldnames)):
@@ -42,13 +42,16 @@ def read_records(kind, root=None):
         if None in row or any(value is None for value in row.values()):
             raise ValueError(f'{path}:{line}: malformed CSV row')
         row.update({key: value.strip() for key, value in row.items()})
-        for key in ['id', 'irp_numbers', 'researcher_names', 'title', 'authors', 'subjects']:
+        required = ['id', 'title', 'authors'] if zenodo else ['id', 'irp_numbers', 'researcher_names', 'title', 'authors', 'subjects']
+        for key in required:
             if not row.get(key):
                 raise ValueError(f'{path}:{line}: {key} is required')
         if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', row['id']) or row['id'] in seen:
             raise ValueError(f'{path}:{line}: invalid or duplicate ID')
         seen.add(row['id'])
-        if not split(row['subjects']) or not re.fullmatch(r'[1-9]\d*(?:;[1-9]\d*)*', row['irp_numbers']):
+        invalid_subjects = not zenodo and not split(row['subjects'])
+        invalid_irps = (row['irp_numbers'] or not zenodo) and not re.fullmatch(r'[1-9]\d*(?:;[1-9]\d*)*', row['irp_numbers'])
+        if invalid_subjects or invalid_irps:
             raise ValueError(f'{path}:{line}: subjects and semicolon-separated IRP numbers are required')
         if row.get('year') and not re.fullmatch(r'(18|19|20|21)\d{2}', row['year']):
             raise ValueError(f'{path}:{line}: year must contain four digits')
@@ -61,7 +64,7 @@ def read_records(kind, root=None):
         if kind == 'publication':
             if row.get('type') not in TYPES or not row.get('year') or not row.get('link'):
                 raise ValueError(f'{path}:{line}: publication type, year and link are required')
-            if row['type'] in {'journal-article', 'conference-paper', 'book-chapter'} and not row.get('venue'):
+            if not zenodo and row['type'] in {'journal-article', 'conference-paper', 'book-chapter'} and not row.get('venue'):
                 raise ValueError(f'{path}:{line}: journal, conference or book title is required')
             if row.get('access') not in {'open-access', 'subscription', 'unknown'}:
                 raise ValueError(f'{path}:{line}: invalid access status')
@@ -83,6 +86,16 @@ def read_records(kind, root=None):
 def inventory(root=None):
     publications = read_records('publication', root)
     working = read_records('working-paper', root)
+    cache = (root or ROOT) / 'data' / 'zenodo-publications.csv'
+    if cache.exists():
+        imported = read_records('publication', root, zenodo=True)
+        # Curated rows override the feed by stable concept ID or normalized DOI.
+        curated_ids = {row['id'] for row in publications}
+        curated_dois = {normalized_doi(row['doi']) for row in publications if row.get('doi')}
+        publications += [row for row in imported if row['id'] not in curated_ids and
+                         (not row.get('doi') or normalized_doi(row['doi']) not in curated_dois)]
+    if len({row['id'] for row in publications}) != len(publications):
+        raise ValueError('Duplicate publication ID')
     dois = [normalized_doi(row['doi']) for row in publications if row.get('doi')]
     if len(dois) != len(set(dois)):
         raise ValueError('Duplicate DOI: update the existing publication instead of adding it again')
@@ -115,7 +128,7 @@ def render_record(row, kind, publications=None):
         return f'<a href="{e(url)}" target="_blank" rel="noopener noreferrer">{e(text)} ↗</a>' if url else ''
     def fact(label, value):
         return f'<div><dt>{e(label)}</dt><dd>{e(value) if value else "Not provided"}</dd></div>'
-    irps = '; '.join('IRP ' + n for n in split(row['irp_numbers']))
+    irps = '; '.join('IRP ' + n for n in split(row['irp_numbers'])) or 'IRP not assigned'
     is_pub = kind == 'publication'
     status = TYPES[row['type']] if is_pub else STAGES[row['status']]
     collaboration = not is_pub and row['open_to_collaborate'] == 'yes'
@@ -163,6 +176,13 @@ def build():
             template = template.replace('id="empty" class="empty" hidden', 'id="empty" class="empty"')
         page.write_text(template, encoding='utf-8')
     shutil.copytree(ROOT / 'data', out / 'data')
+    # Publish the complete catalogue in the downloadable CSV as well as the page.
+    with (out / 'data/publications.csv').open('w', newline='', encoding='utf-8') as f:
+        with (ROOT / 'data/publications.csv').open(newline='', encoding='utf-8') as source:
+            fields = csv.DictReader(source).fieldnames
+        writer = csv.DictWriter(f, fieldnames=fields, lineterminator='\n')
+        writer.writeheader()
+        writer.writerows(data['publications'])
     (out / 'data/publications.bib').write_text('\n'.join(bibtex(r) for r in data['publications']), encoding='utf-8')
     (out / 'citations').mkdir()
     for row in data['publications']:

@@ -31,6 +31,12 @@ def apply_proposal(path, write=False):
             raise ValueError('ID already exists; update the existing record')
         rows.append({field: record.get(field, '') for field in fields})
     else:
+        if not matches and kind == 'publication':
+            # An approved update promotes a feed record to a curated override.
+            imported = [r for r in inventory()['publications'] if r['id'] == record.get('id')]
+            if len(imported) == 1:
+                matches = [len(rows)]
+                rows.append(imported[0].copy())
         if len(matches) != 1:
             raise ValueError('An update must use an existing stable ID')
         rows[matches[0]].update(record)
