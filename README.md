@@ -78,7 +78,7 @@ Enable **Settings → Pages → Source → GitHub Actions**. `pages.yml` builds/
 The first paper's citation was verified using [Crossref's DOI record](https://api.crossref.org/works/10.1016/j.knosys.2025.114449) and [Elsevier's article metadata](https://api.elsevier.com/content/article/pii/S0950705125014881). The IRP 14 association was supplied by the author; subject tags are editorial. No working papers were invented to populate the empty section.
 
 <!-- BEGIN RESEARCH -->
-5 publication/preprint record(s); 0 working paper(s).
+7 publication/preprint record(s); 0 working paper(s).
 
 | Title | IRP | Year | Type |
 | --- | --- | --- | --- |
@@ -87,4 +87,6 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | [Finance professionals' demands on AI: beyond accuracy and explainability](https://zenodo.org/records/24165581) | 9 | 2026 | journal-article |
 | [Investigating explainable artificial intelligence in financial time series modeling](https://zenodo.org/records/24165806) | 16 | 2026 | journal-article |
 | [Identifiable Regime Detection in Pension-Fund Networks via Sticky Hidden Markov Models](https://zenodo.org/records/24191657) | 11 | 2026 | journal-article |
+| [A Multimodal Vision-Language Framework for Financial Anomaly Detection](https://zenodo.org/records/24194418) | 7;8;12 | 2026 | conference-paper |
+| [Quantile regression–PCA framework in portfolio selection process](https://zenodo.org/records/24195204) | 11 | 2026 | journal-article |
 <!-- END RESEARCH -->
