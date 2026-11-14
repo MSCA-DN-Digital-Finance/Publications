@@ -80,7 +80,7 @@ Enable **Settings → Pages → Source → GitHub Actions**. `pages.yml` builds/
 The first paper's citation was verified using [Crossref's DOI record](https://api.crossref.org/works/10.1016/j.knosys.2025.114449) and [Elsevier's article metadata](https://api.elsevier.com/content/article/pii/S0950705125014881). The IRP 14 association was supplied by the author; subject tags are editorial. No working papers were invented to populate the empty section.
 
 <!-- BEGIN RESEARCH -->
-9 publication/preprint record(s); 0 working paper(s).
+13 publication/preprint record(s); 0 working paper(s).
 
 | Title | IRP | Year | Type |
 | --- | --- | --- | --- |
@@ -93,4 +93,8 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | [Quantile regression–PCA framework in portfolio selection process](https://zenodo.org/records/24195204) | 11 | 2026 | journal-article |
 | [Can Foundation Models Manage Risk? Zero-Shot VaR and ES Forecasting with Conformal Calibration in CEE Markets](https://zenodo.org/records/24196056) | 7;8;12 | 2026 | journal-article |
 | [Cryptocurrencies in a Changing Financial Landscape: A Systematic Review](https://zenodo.org/records/24196269) | 8 | 2025 | conference-paper |
+| [Sustainability of DeFi Carry Trading Using Stablecoins](https://zenodo.org/records/24198790) | 15 | 2026 | other |
+| [Cryptocurrency Market Analysis: Insights from Metcalfe's Law and Log-Periodic Power Laws](https://zenodo.org/records/24199156) | 15 | 2025 | other |
+| [In the beginning was the Word: LLM-VaR and LLM-ES](https://zenodo.org/records/24199360) | 15 | 2026 | journal-article |
+| [Recalibrating Tail Risk Forecasts under Temporal Dependence](https://zenodo.org/records/24199645) | 15 | 2026 | other |
 <!-- END RESEARCH -->
