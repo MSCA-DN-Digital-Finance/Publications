@@ -26,7 +26,9 @@ jobs:
       - name: Test data and contribution workflow
         run: python -m unittest discover -s tests -v
       - name: Check browser script syntax
-        run: node --check site/assets/publications.js
+        run: |
+          node --check site/assets/publications.js
+          node --check site/assets/collaboration.js
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v4

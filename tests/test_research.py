@@ -67,12 +67,12 @@ class ResearchTests(unittest.TestCase):
         import_proposal.apply_proposal(self.proposal(record, 'add'), True)
         self.assertEqual(len(build_site.inventory()['publications']), 2)
 
-    def test_open_collaboration_requires_public_contact_and_needs(self):
+    def test_open_collaboration_requires_needs_without_external_contact(self):
         working = {'id':'a-working-paper', 'irp_numbers':'14;15', 'researcher_names':'Researcher One;Researcher Two', 'title':'A collaboration topic', 'authors':'Researcher One;Researcher Two', 'subjects':'forecasting', 'summary':'A research question', 'status':'idea', 'open_to_collaborate':'yes'}
         for fields in [{}, {'contact_url':'https://example.org/profile'}, {'contact_url':'https://example.org/profile','collaboration_needs':'Looking for model evaluation expertise','related_publication_ids':'missing-id'}]:
             with self.subTest(fields=fields), self.assertRaises(ValueError):
                 import_proposal.apply_proposal(self.proposal({**working, **fields}, 'add', 'working-paper'), True)
-        working.update(contact_url='https://example.org/profile',collaboration_needs='Looking for model evaluation expertise',related_publication_ids=self.original['id'])
+        working.update(collaboration_needs='Looking for model evaluation expertise',related_publication_ids=self.original['id'])
         import_proposal.apply_proposal(self.proposal(working,'add','working-paper'), True)
         self.assertEqual(len(build_site.inventory()['working_papers']), 1)
 

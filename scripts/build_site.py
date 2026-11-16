@@ -12,6 +12,8 @@ from directory import enrich, load as load_directory
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {'publication': 'publications.csv', 'working-paper': 'working-papers.csv'}
+PROPOSAL_FILES = {**FILES, 'collaboration-request': 'collaboration-requests.csv'}
+COLLABORATION_STATES = {'requested': 'Requested', 'accepted': 'Accepted', 'declined': 'Declined', 'withdrawn': 'Withdrawn'}
 TYPES = {'journal-article': 'Journal article', 'conference-paper': 'Conference paper', 'preprint': 'Preprint', 'book-chapter': 'Book chapter', 'other': 'Other'}
 STAGES = {'idea': 'Research idea', 'in-progress': 'In progress', 'draft': 'Draft available', 'under-review': 'Under review', 'paused': 'Paused', 'completed': 'Completed'}
 
@@ -79,8 +81,8 @@ def read_records(kind, root=None, *, zenodo=False):
         else:
             if row.get('status') not in STAGES or row.get('open_to_collaborate') not in {'yes', 'no'} or not row.get('summary'):
                 raise ValueError(f'{path}:{line}: working paper stage, summary and collaboration status are required')
-            if row['open_to_collaborate'] == 'yes' and not (row.get('collaboration_needs') and row.get('contact_url')):
-                raise ValueError(f'{path}:{line}: open collaboration needs a description and public contact/profile URL')
+            if row['open_to_collaborate'] == 'yes' and not row.get('collaboration_needs'):
+                raise ValueError(f'{path}:{line}: open collaboration needs a description')
     return rows
 
 
@@ -105,7 +107,55 @@ def inventory(root=None):
         unknown = set(split(row.get('related_publication_ids'))) - ids
         if unknown:
             raise ValueError(f"{row['id']}: unknown related publication IDs: {unknown}")
+    read_collaborations(root, working)
     return {'publications': publications, 'working_papers': working}
+
+
+def read_collaborations(root=None, working=None):
+    root = root or ROOT
+    path = root / 'data/collaboration-requests.csv'
+    if not path.exists():
+        return []
+    working = read_records('working-paper', root) if working is None else working
+    papers = {row['id']: row for row in working}
+    projects = {p['number']: p for p in load_directory(root)}
+    with path.open(encoding='utf-8-sig', newline='') as stream:
+        reader = csv.DictReader(stream)
+        if not reader.fieldnames or len(set(reader.fieldnames)) != len(reader.fieldnames):
+            raise ValueError('Missing or duplicate collaboration columns')
+        rows = list(reader)
+    seen, active = set(), set()
+    config = json.loads((root / 'site/config.json').read_text()) if (root / 'site/config.json').exists() else {'repository': 'https://github.com/MSCA-DN-Digital-Finance/Publications'}
+    for row in rows:
+        if None in row or any(value is None for value in row.values()):
+            raise ValueError('Malformed collaboration row')
+        row.update({key: value.strip() for key, value in row.items()})
+        rid = row.get('id', '')
+        if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', rid) or rid in seen:
+            raise ValueError('Invalid or duplicate collaboration ID')
+        seen.add(rid)
+        if row.get('working_paper_id') not in papers or row.get('status') not in COLLABORATION_STATES:
+            raise ValueError('Unknown working paper or collaboration status')
+        numbers = split(row.get('irp_numbers'))
+        if not numbers or len(set(numbers)) != len(numbers) or any(n not in projects or not projects[n].get('candidate') for n in numbers):
+            raise ValueError('Select known IRPs with current doctoral candidates')
+        if not re.fullmatch(r'[1-9]\d*(?:;[1-9]\d*)*', row['irp_numbers']):
+            raise ValueError('IRPs must be semicolon-separated numbers')
+        if not row.get('message') or len(row['message']) > 3000:
+            raise ValueError('Collaboration message must contain 1–3000 characters')
+        if row.get('issue_url') and not re.fullmatch(re.escape(config['repository'].rstrip('/')) + r'/issues/[1-9]\d*', row['issue_url']):
+            raise ValueError('Collaboration issue must belong to this repository')
+        if row.get('requester_login') and not re.fullmatch(r'[A-Za-z0-9-]+', row['requester_login']):
+            raise ValueError('Invalid requester GitHub handle')
+        if row.get('last_updated'):
+            date.fromisoformat(row['last_updated'])
+        if row['status'] in {'requested', 'accepted'}:
+            for number in numbers:
+                key = (row['working_paper_id'], number)
+                if key in active:
+                    raise ValueError('An active request already exists for this working paper and IRP; update it')
+                active.add(key)
+    return rows
 
 
 def bibtex(row):
@@ -123,7 +173,7 @@ def bibtex(row):
     return '@' + entry_type + '{' + row['id'] + ',\n' + ',\n'.join(f'  {key} = {{{escape(value)}}}' for key, value in fields.items()) + '\n}\n'
 
 
-def render_record(row, kind, publications=None):
+def render_record(row, kind, publications=None, requests=None):
     e = lambda v: html.escape(str(v or ''), quote=True)
     def link(url, text):
         return f'<a href="{e(url)}" target="_blank" rel="noopener noreferrer">{e(text)} ↗</a>' if url else ''
@@ -132,7 +182,7 @@ def render_record(row, kind, publications=None):
     irps = '; '.join('IRP ' + n for n in split(row['irp_numbers'])) or 'IRP not assigned'
     is_pub = kind == 'publication'
     status = TYPES[row['type']] if is_pub else STAGES[row['status']]
-    collaboration = not is_pub and row['open_to_collaborate'] == 'yes'
+    collaboration = not is_pub and row['open_to_collaborate'] == 'yes' and row['status'] not in {'paused', 'completed'}
     badge = '<span class="badge collaborate">Open to collaborate</span>' if collaboration else '<span class="badge">Open access</span>' if is_pub and row.get('access') == 'open-access' else ''
     tags = ''.join(f'<span class="tag">{e(tag)}</span>' for tag in split(row['subjects']))
     title = link(row.get('link'), row['title']) if row.get('link') else e(row['title'])
@@ -156,7 +206,22 @@ def render_record(row, kind, publications=None):
         links += link('https://doi.org/' + quote(normalized_doi(row['doi']), safe='/'), 'DOI')
     if is_pub:
         links += f'<a href="citations/{e(row["id"])}.bib" download>Download BibTeX ↓</a>'
-    collab = f'<div class="collaboration-note"><h3>Collaboration request</h3><p>{e(row.get("collaboration_needs"))}</p>{link(row.get("contact_url"), "Contact via public profile / discussion")}</div>' if collaboration else ''
+    collab = ''
+    if collaboration:
+        call = f'<a class="button small" href="collaborate.html?paper={e(row["id"])}">Request to collaborate</a>' if row['status'] not in {'paused', 'completed'} else ''
+        collab = f'<div class="collaboration-note"><h3>Open collaboration</h3><p>{e(row.get("collaboration_needs"))}</p>{call}</div>'
+    if not is_pub:
+        related_requests = [r for r in (requests or []) if r['working_paper_id'] == row['id'] and r['status'] in {'requested', 'accepted'}]
+        for state, heading in [('accepted', 'Collaborating IRPs'), ('requested', 'Collaboration requests')]:
+            items = []
+            for request in related_requests:
+                if request['status'] != state:
+                    continue
+                profiles = '; '.join(f'<a href="/irps/irp-{number}.html">IRP {number}</a>' for number in split(request['irp_numbers']))
+                issue = link(request.get('issue_url'), 'Request discussion')
+                items.append(f'<li><div>{profiles} · {e(request.get("researcher_names"))}</div><p>{e(request["message"])}</p><div class="inline-links">{issue}<a href="collaborate.html?request={e(request["id"])}">Update request ↗</a></div></li>')
+            if items:
+                collab += f'<section class="paper-collaborators"><h3>{heading}</h3><ul>{"".join(items)}</ul></section>'
     citation = f'<p class="citation">{e("; ".join(split(row["authors"])))} ({e(row.get("year"))}). {e(row["title"])}. {e(row.get("venue"))}{", " + e(row["volume"]) if row.get("volume") else ""}{", " + e(row["pages"]) if row.get("pages") else ""}.</p>' if is_pub else ''
     return f'''<article class="entry paper" id="paper-{e(row['id'])}" data-record-id="{e(row['id'])}"><div class="entry-top"><span class="entry-type">{e(status)} · {e(irps)}</span>{badge}</div><h2>{title}</h2><p class="authors">{e('; '.join(split(row['authors'])))}</p><div class="venue">{e(venue)}</div><div class="tags">{tags}</div>{'<p class="paper-summary">'+e(row['summary'])+'</p>' if row.get('summary') else ''}{collab}<details><summary>{'Details & citation' if is_pub else 'Working paper details'}</summary><dl class="detail-grid">{facts}</dl>{citation}<div class="paper-links">{links}</div><div class="details-actions"><a class="text-link" href="contribute.html?kind={kind}&amp;id={e(row['id'])}">Suggest an update ↗</a><button class="text-button" data-copy="{kind}/{e(row['id'])}">Copy record link</button></div><p class="provenance">{e(row.get('provenance'))}</p></details></article>'''
 
@@ -165,18 +230,19 @@ def build():
     data = inventory()
     projects = load_directory(ROOT)
     data = {key: [enrich(row, projects) for row in rows] for key, rows in data.items()}
+    requests = [enrich(row, projects) for row in read_collaborations(ROOT, data['working_papers'])]
     out = ROOT / '_site'
     if out.exists():
         shutil.rmtree(out)
     shutil.copytree(ROOT / 'site', out, ignore=shutil.ignore_patterns('config.json'))
     config = json.loads((ROOT / 'site/config.json').read_text())
-    payload = json.dumps({**data, 'people': projects, 'config': config}, ensure_ascii=False).replace('<', '\\u003c')
+    payload = json.dumps({**data, 'collaboration_requests': requests, 'people': projects, 'config': config}, ensure_ascii=False).replace('<', '\\u003c')
     for page in out.glob('*.html'):
         template = page.read_text()
         is_working = 'data-collection="working-paper"' in template
         kind = 'working-paper' if is_working else 'publication'
         records = data['working_papers' if is_working else 'publications']
-        cards = ''.join(render_record(row, kind, data['publications']) for row in records)
+        cards = ''.join(render_record(row, kind, data['publications'], requests) for row in records)
         template = template.replace('<!-- RECORDS -->', cards).replace('<!-- RESEARCH_DATA -->', '<script type="application/json" id="research-data">' + payload + '</script>')
         if not records and 'id="records"' in template:
             template = template.replace('id="empty" class="empty" hidden', 'id="empty" class="empty"')
@@ -192,7 +258,7 @@ def build():
             writer = csv.DictWriter(f, fieldnames=fields, lineterminator='\n')
             writer.writeheader()
             writer.writerows(data[collection])
-    (out / 'data/research.json').write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    (out / 'data/research.json').write_text(json.dumps({**data, 'collaboration_requests': requests}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     (out / 'data/publications.bib').write_text('\n'.join(bibtex(r) for r in data['publications']), encoding='utf-8')
     (out / 'citations').mkdir()
     for row in data['publications']:

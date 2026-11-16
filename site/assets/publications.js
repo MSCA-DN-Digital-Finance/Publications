@@ -8,6 +8,8 @@
   const all=[...data.publications.map(r=>({...r,kind:'publication'})),...data.working_papers.map(r=>({...r,kind:'working-paper'}))];
   const people=new Map((data.people||[]).map(p=>[p.number,p]));
   const irpLabel=number=>{const p=people.get(number);return p?'IRP '+number+' · '+(p.candidate?.name||p.short_title):'IRP '+number;};
+  const paperRequests=row=>row.kind==='working-paper'?(data.collaboration_requests||[]).filter(r=>r.working_paper_id===row.id&&['requested','accepted'].includes(r.status)):[];
+  const involvedIRPs=row=>[...new Set([...split(row.irp_numbers),...paperRequests(row).flatMap(r=>split(r.irp_numbers))])];
   const results=document.getElementById('records');
   if(results){
     const kind=document.body.dataset.collection;
@@ -19,7 +21,7 @@
     const sort=document.getElementById('sort');if(['year','title','updated'].includes(params.get('sort')))sort.value=params.get('sort');
     for(const [control,key] of [['subject','subjects'],['irp','irp_numbers'],['year','year']]){
       const select=document.getElementById(control+'-filter');
-      const values=[...new Set(rows.flatMap(r=>split(r[key])))].sort((a,b)=>control==='year'?b.localeCompare(a):a.localeCompare(b,undefined,{numeric:true}));
+      const values=[...new Set(rows.flatMap(r=>control==='irp'?involvedIRPs(r):split(r[key])))].sort((a,b)=>control==='year'?b.localeCompare(a):a.localeCompare(b,undefined,{numeric:true}));
       values.forEach(value=>{const option=document.createElement('option');option.value=value;option.textContent=control==='irp'?irpLabel(value):value;select.append(option);});
     }
     controls.forEach(name=>{const control=document.getElementById(name+'-filter');if(params.has(name))control.value=params.get(name);control.addEventListener('change',render);});
@@ -31,7 +33,7 @@
     function render(){
       const filter=Object.fromEntries(controls.map(name=>[name,document.getElementById(name+'-filter').value]));
       const words=search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
-      const found=rows.filter(r=>words.every(word=>Object.values(r).join(' ').toLowerCase().includes(word))&&controls.every(name=>!filter[name]||split(r[fieldMap[name]]).includes(filter[name]))).sort((a,b)=>sort.value==='title'?a.title.localeCompare(b.title):sort.value==='updated'?(b.last_updated||'').localeCompare(a.last_updated||'')||a.title.localeCompare(b.title):(b.year||'').localeCompare(a.year||'')||a.title.localeCompare(b.title));
+      const found=rows.filter(r=>words.every(word=>[...Object.values(r),...paperRequests(r).flatMap(q=>[q.researcher_names,q.message,q.irp_numbers])].join(' ').toLowerCase().includes(word))&&controls.every(name=>!filter[name]||(name==='irp'?involvedIRPs(r):split(r[fieldMap[name]])).includes(filter[name]))).sort((a,b)=>sort.value==='title'?a.title.localeCompare(b.title):sort.value==='updated'?(b.last_updated||'').localeCompare(a.last_updated||'')||a.title.localeCompare(b.title):(b.year||'').localeCompare(a.year||'')||a.title.localeCompare(b.title));
       cards.forEach(card=>card.hidden=true);found.forEach(r=>{const card=cards.get(r.id);card.hidden=false;results.append(card);});
       document.getElementById('result-count').textContent=found.length+' '+(kind==='publication'?(found.length===1?'publication / preprint':'publications / preprints'):(found.length===1?'working paper':'working papers'));
       const empty=document.getElementById('empty');empty.hidden=found.length>0;
@@ -89,7 +91,7 @@
       control('year').required=kind==='publication';control('link').required=kind==='publication';control('summary').required=kind==='working-paper';
       control('venue').required=kind==='publication'&&['journal-article','conference-paper','book-chapter'].includes(control('type').value);
       const collaborate=kind==='working-paper'&&control('open_to_collaborate').value==='yes';
-      control('collaboration_needs').required=collaborate;control('contact_url').required=collaborate;
+      control('collaboration_needs').required=collaborate;
     }
     ['kind','type','open_to_collaborate'].forEach(name=>control(name).addEventListener('change',sync));sync();
     let proposal;

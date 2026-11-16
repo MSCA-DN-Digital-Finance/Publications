@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 import shutil
 import tempfile
-from build_site import ROOT, FILES, inventory, normalized_doi
+from build_site import ROOT, PROPOSAL_FILES as FILES, inventory, normalized_doi, split
 
 
 def apply_proposal(path, write=False):
@@ -25,6 +25,15 @@ def apply_proposal(path, write=False):
         raise ValueError('All record fields must be strings')
     if record.get('doi'):
         record['doi'] = normalized_doi(record['doi'])
+    if kind == 'collaboration-request' and action == 'add':
+        papers = {p['id']: p for p in inventory()['working_papers']}
+        paper = papers.get(record.get('working_paper_id'))
+        if not paper or paper['open_to_collaborate'] != 'yes' or paper['status'] in {'paused', 'completed'}:
+            raise ValueError('This working paper is not currently accepting collaboration requests')
+        if set(split(record.get('irp_numbers'))) & set(split(paper['irp_numbers'])):
+            raise ValueError('Paper owners should update their working paper rather than request to join it')
+        if record.get('status') != 'requested':
+            raise ValueError('A new collaboration starts as requested; acceptance requires a reviewed update')
     matches = [i for i, r in enumerate(rows) if r['id'] == record.get('id')]
     if action == 'add':
         if matches:
@@ -39,10 +48,15 @@ def apply_proposal(path, write=False):
                 rows.append(imported[0].copy())
         if len(matches) != 1:
             raise ValueError('An update must use an existing stable ID')
+        if kind == 'collaboration-request' and any(record.get(key, rows[matches[0]][key]) != rows[matches[0]][key] for key in ['working_paper_id', 'irp_numbers', 'issue_url', 'requester_login']):
+            raise ValueError('A request update must preserve its working paper and requesting IRPs')
         rows[matches[0]].update(record)
     with tempfile.TemporaryDirectory() as staging:
         staging_root = Path(staging)
         shutil.copytree(ROOT / 'data', staging_root / 'data')
+        if (ROOT / 'site/config.json').exists():
+            (staging_root / 'site').mkdir()
+            shutil.copy2(ROOT / 'site/config.json', staging_root / 'site/config.json')
         staged = staging_root / 'data' / FILES[kind]
         with staged.open('w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=fields, lineterminator='\n')

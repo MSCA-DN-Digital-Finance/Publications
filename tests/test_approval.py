@@ -83,7 +83,7 @@ class ApprovalIntegrationTests(unittest.TestCase):
         if method == 'GET':
             return copy.deepcopy(self.current)
         if endpoint.endswith('/labels'):
-            self.current['labels'].append({'name': 'publication-applied'})
+            self.current['labels'].extend({'name': name} for name in payload['labels'])
         if method == 'PATCH':
             self.current['state'] = payload['state']
         return {}
@@ -148,3 +148,44 @@ class ApprovalIntegrationTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 approval.approve(event_for(), REPOSITORY, 'maintainer')
         self.assertEqual(self.git('rev-list', '--count', 'main'), '1')
+
+    def test_collaboration_approval_is_bound_to_issue_and_idempotent(self):
+        import csv
+        from test_collaboration import PAPER, REQUEST
+        config_path = self.root / 'site/config.json'
+        config = json.loads(config_path.read_text()); config['repository'] = 'https://github.com/' + REPOSITORY
+        config_path.write_text(json.dumps(config))
+        path = self.root / 'data/working-papers.csv'
+        with path.open(newline='') as stream: fields = csv.DictReader(stream).fieldnames
+        with path.open('a', newline='') as stream:
+            csv.DictWriter(stream, fieldnames=fields, lineterminator='\n').writerow({key: PAPER.get(key, '') for key in fields})
+        self.git('add', '.'); self.git('commit', '-m', 'Add working paper fixture'); self.git('push', 'origin', 'main')
+        proposal = {'kind': 'collaboration-request', 'action': 'add', 'record': {**REQUEST, 'issue_url': 'https://example.org/spoofed'}}
+        event = event_for(proposal); event['label']['name'] = 'collaboration-approved'
+        event['issue'].update(labels=[{'name': 'collaboration-approved'}], user={'login': 'dc-requester'})
+        self.current = copy.deepcopy(event['issue'])
+        commit = approval.approve(event, REPOSITORY, 'maintainer')
+        with (self.root / 'data/collaboration-requests.csv').open() as stream: rows = list(csv.DictReader(stream))
+        self.assertEqual(rows[0]['issue_url'], 'https://github.com/' + REPOSITORY + '/issues/42')
+        self.assertEqual(rows[0]['requester_login'], 'dc-requester')
+        self.assertEqual(rows[0]['status'], 'requested')
+        self.assertIn({'name': 'collaboration-applied'}, self.current['labels'])
+        self.assertEqual(approval.approve(event, REPOSITORY, 'maintainer'), commit)
+        update = event_for({'kind': 'collaboration-request', 'action': 'update', 'record': {'id': REQUEST['id'], 'status': 'accepted'}})
+        update['label']['name'] = 'collaboration-approved'
+        update['issue'].update(number=43, labels=[{'name': 'collaboration-approved'}], user={'login': 'paper-author'})
+        self.current = copy.deepcopy(update['issue'])
+        approval.approve(update, REPOSITORY, 'maintainer')
+        with (self.root / 'data/collaboration-requests.csv').open() as stream: accepted = list(csv.DictReader(stream))[0]
+        self.assertEqual(accepted['status'], 'accepted')
+        self.assertEqual(accepted['requester_login'], 'dc-requester')
+        self.assertTrue(accepted['issue_url'].endswith('/issues/42'))
+        self.assertIn('Collaborating IRPs', (self.root / '_site/working-papers.html').read_text())
+
+    def test_collaboration_cannot_use_publication_approval_label(self):
+        from test_collaboration import REQUEST
+        event = event_for({'kind': 'collaboration-request', 'action': 'add', 'record': REQUEST})
+        self.current = copy.deepcopy(event['issue'])
+        before = self.git('rev-parse', 'main')
+        with self.assertRaises(ValueError): approval.approve(event, REPOSITORY, 'maintainer')
+        self.assertEqual(self.git('rev-parse', 'main'), before)

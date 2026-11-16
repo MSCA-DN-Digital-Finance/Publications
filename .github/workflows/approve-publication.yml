@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   apply:
-    if: github.event.label.name == 'publication-approved' && !github.event.issue.pull_request && github.event.issue.state == 'open'
+    if: (github.event.label.name == 'publication-approved' || github.event.label.name == 'collaboration-approved') && !github.event.issue.pull_request && github.event.issue.state == 'open'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

@@ -12,7 +12,34 @@ Use **Add paper** on the website, or **Suggest an update** on a record. The form
 
 A maintainer with write, maintain or admin access reviews the issue and adds **`publication-approved`**. The approval workflow validates the proposal, updates its CSV and this generated index, commits to `main`, dispatches a Pages deployment, adds **`publication-applied`**, and closes the issue. No manual CSV editing or personal access token is needed.
 
+Working paper collaboration requests use the on-site form and the `collaboration-approved` label. See the collaboration section below.
+
 The issue body must contain exactly one fenced `json` proposal. Paste attachment-only proposals into the body before approval. If the issue changes after approval, review it and remove/re-add the label. Invalid records leave the inventory unchanged. For a transient failure after the CSV commit, rerun the workflow: proposal hashes prevent duplicate imports. See **Actions → Apply approved research proposal** for failures and commit links. A successful approval requests deployment; the Pages workflow confirms publication.
+
+## Working paper collaboration
+
+Use **Request to collaborate** on a working paper card. The on-site form selects
+one or more requesting IRPs from the shared directory and asks for a proposed
+contribution. It prepares a GitHub issue, just like a record edit. No external
+contact/profile URL is needed. Requests are published after a maintainer verifies
+the IRP association and applies `collaboration-approved`.
+
+`data/collaboration-requests.csv` stores reviewed requests and their working-paper
+references. Cards show **Collaboration requests** separately from accepted
+**Collaborating IRPs**, with names, IRP profile links, contributions and the issue
+discussion. Acceptance is reviewed with the paper's authors and does not add
+coauthors automatically. **Update request** supports `requested`, `accepted`,
+`declined` and `withdrawn`; declined/withdrawn requests remain in the record history
+and are omitted from active card lists. New requests require an open, active paper
+and cannot target the paper owner's IRPs. Only one active request per paper/IRP is
+allowed. Request updates preserve the target paper and IRPs.
+
+The approval workflow uses the actual issue URL and submitter's GitHub handle;
+request authorship/IRP affiliation is reviewed by maintainers. The issue is closed
+with `collaboration-applied` after import and deployment dispatch. Reruns are
+idempotent. Draft saving and a JSON download are available. The old `contact_url`
+column is retained for compatibility and is no longer required or displayed.
+Collaboration data is included in the public `data/research.json` export.
 
 ## Data and metadata
 
@@ -20,7 +47,7 @@ The issue body must contain exactly one fenced `json` proposal. Paste attachment
 
 Publications also include venue, DOI, preprint URL, volume, issue, pages/article number, publication date, access status, licence and an optional public researcher profile. DOIs are normalized and must be unique; update a preprint record when adding its publication details rather than duplicating the same DOI. A separate preprint URL can link the earlier version.
 
-Working papers include stage, `open_to_collaborate` (`yes`/`no`), a description of collaboration needs, a public profile/discussion URL, and optional related publication IDs. Open collaboration requires both a description and public contact route. A public draft is optional. Mark completed work accordingly and link its resulting publication; do not mislabel unpublished work as a published article.
+Working papers include stage, `open_to_collaborate` (`yes`/`no`), a description of collaboration needs, optional related publication IDs, and an on-site collaboration request button. Open collaboration requires a description of the contribution being sought. A public draft is optional. Mark completed work accordingly and link its resulting publication; do not mislabel unpublished work as a published article.
 
 Publication types: `journal-article`, `conference-paper`, `preprint`, `book-chapter`, `other`. Working stages: `idea`, `in-progress`, `draft`, `under-review`, `paused`, `completed`. Access values: `open-access`, `subscription`, `unknown`. Use `YYYY-MM-DD` for `last_updated`, `YYYY-MM` or `YYYY-MM-DD` for publication dates, and four-digit years. A journal/conference/book venue is required for the corresponding publication type. Working papers require a summary. Leave unknown optional metadata blank.
 

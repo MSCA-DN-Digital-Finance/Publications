@@ -9,7 +9,7 @@ import subprocess
 import sys
 import tempfile
 
-from build_site import ROOT, FILES
+from build_site import ROOT, PROPOSAL_FILES as FILES
 
 APPROVAL_LABEL = 'publication-approved'
 APPLIED_LABEL = 'publication-applied'
@@ -40,7 +40,7 @@ def extract_proposal(body):
 def validate_event(event, repository, actor):
     issue = event.get('issue', {})
     number = issue.get('number')
-    if (event.get('action') != 'labeled' or event.get('label', {}).get('name') != APPROVAL_LABEL
+    if (event.get('action') != 'labeled' or event.get('label', {}).get('name') not in {APPROVAL_LABEL, 'collaboration-approved'}
             or event.get('repository', {}).get('full_name') != repository
             or event.get('sender', {}).get('login') != actor
             or 'pull_request' in issue or type(number) is not int or number < 1):
@@ -50,12 +50,12 @@ def validate_event(event, repository, actor):
     return issue
 
 
-def assert_unchanged(snapshot, current):
+def assert_unchanged(snapshot, current, approval_label=APPROVAL_LABEL, applied_label=APPLIED_LABEL):
     if current.get('body') != snapshot.get('body'):
-        raise ValueError('Issue content changed after approval. Review it, then remove and re-add publication-approved.')
-    if APPROVAL_LABEL not in {label['name'] for label in current.get('labels', [])}:
+        raise ValueError(f'Issue content changed after approval. Review it, then remove and re-add {approval_label}.')
+    if approval_label not in {label['name'] for label in current.get('labels', [])}:
         raise ValueError('Approval was removed; no change will be applied')
-    if current.get('state') != 'open' and APPLIED_LABEL not in {label['name'] for label in current.get('labels', [])}:
+    if current.get('state') != 'open' and applied_label not in {label['name'] for label in current.get('labels', [])}:
         raise ValueError('The issue was closed without being applied')
 
 
@@ -81,8 +81,20 @@ def approve(event, repository, actor):
         raise ValueError('Approval requires repository write, maintain or admin permission; triage is insufficient')
     number = snapshot['number']
     endpoint = f'repos/{repository}/issues/{number}'
-    assert_unchanged(snapshot, api(endpoint))
+    approval_label = event['label']['name']
+    applied_label = 'collaboration-applied' if approval_label == 'collaboration-approved' else APPLIED_LABEL
+    assert_unchanged(snapshot, api(endpoint), approval_label, applied_label)
     proposal = extract_proposal(snapshot.get('body'))
+    collaboration = proposal['kind'] == 'collaboration-request'
+    if approval_label != ('collaboration-approved' if collaboration else APPROVAL_LABEL):
+        raise ValueError('Use collaboration-approved for collaboration requests and publication-approved for research records')
+    if collaboration:
+        if proposal['action'] == 'add':
+            proposal['record']['issue_url'] = f'https://github.com/{repository}/issues/{number}'
+            proposal['record']['requester_login'] = snapshot.get('user', {}).get('login', '')
+        else:
+            proposal['record'].pop('issue_url', None)
+            proposal['record'].pop('requester_login', None)
     encoded = json.dumps(proposal, ensure_ascii=False, sort_keys=True)
     digest = hashlib.sha256(encoded.encode()).hexdigest()
     marker = f'Research-Proposal: {repository}#{number}:{digest}'
@@ -99,7 +111,7 @@ def approve(event, repository, actor):
                 break
             # This script runs only in a disposable Actions checkout, never in a user's working tree.
             run(['git', 'reset', '--hard', 'origin/main'])
-            assert_unchanged(snapshot, api(endpoint))
+            assert_unchanged(snapshot, api(endpoint), approval_label, applied_label)
             run([sys.executable, 'scripts/import_proposal.py', str(path), '--write'])
             run([sys.executable, 'update_README.py'])
             run([sys.executable, 'scripts/build_site.py'])
@@ -110,7 +122,7 @@ def approve(event, repository, actor):
             run(['git', 'add', '--', *sorted(allowed)])
             # An empty audit commit records a valid no-op proposal and makes reruns idempotent.
             run(['git', 'commit', '--allow-empty', '-m', f'chore: apply research proposal #{number}', '-m', marker])
-            assert_unchanged(snapshot, api(endpoint))
+            assert_unchanged(snapshot, api(endpoint), approval_label, applied_label)
             pushed = run(['git', 'push', 'origin', 'HEAD:main'], check=False)
             if pushed.returncode == 0:
                 commit = run(['git', 'rev-parse', 'HEAD']).stdout.strip()
@@ -119,7 +131,7 @@ def approve(event, repository, actor):
                 raise ValueError('Could not push the approved change. Check branch protection and workflow permissions, then rerun this workflow.')
     # Bot commits do not trigger push workflows. Explicit dispatch works with GITHUB_TOKEN.
     api(f'repos/{repository}/actions/workflows/pages.yml/dispatches', method='POST', payload={'ref': 'main'})
-    api(endpoint + '/labels', method='POST', payload={'labels': [APPLIED_LABEL]})
+    api(endpoint + '/labels', method='POST', payload={'labels': [applied_label]})
     api(endpoint, method='PATCH', payload={'state': 'closed', 'state_reason': 'completed'})
     summary = f'Applied approved proposal #{number}: https://github.com/{repository}/commit/{commit}\n\nPages deployment requested. See the Validate and deploy publications workflow for publication status.\n'
     if os.environ.get('GITHUB_STEP_SUMMARY'):
