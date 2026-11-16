@@ -80,7 +80,7 @@ Enable **Settings → Pages → Source → GitHub Actions**. `pages.yml` builds/
 The first paper's citation was verified using [Crossref's DOI record](https://api.crossref.org/works/10.1016/j.knosys.2025.114449) and [Elsevier's article metadata](https://api.elsevier.com/content/article/pii/S0950705125014881). The IRP 14 association was supplied by the author; subject tags are editorial. No working papers were invented to populate the empty section.
 
 <!-- BEGIN RESEARCH -->
-13 publication/preprint record(s); 0 working paper(s).
+13 publication/preprint record(s); 1 working paper(s).
 
 | Title | IRP | Year | Type |
 | --- | --- | --- | --- |
@@ -97,4 +97,5 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | [Cryptocurrency Market Analysis: Insights from Metcalfe's Law and Log-Periodic Power Laws](https://zenodo.org/records/24199156) | 15 | 2025 | other |
 | [In the beginning was the Word: LLM-VaR and LLM-ES](https://zenodo.org/records/24199360) | 15 | 2026 | journal-article |
 | [Recalibrating Tail Risk Forecasts under Temporal Dependence](https://zenodo.org/records/24199645) | 15 | 2026 | other |
+| Polymarked: Imporving physical density estimation with prediction markets | 14;15;8;7;12 |  | in-progress |
 <!-- END RESEARCH -->
