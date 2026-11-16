@@ -15,9 +15,12 @@
           "University of Twente"
         ],
         "research_interests": "Reinforcement Learning, Machine Learning, Time Series, Explainable Artificial Intelligence",
-        "orcid": "",
-        "links": {},
-        "source_url": "https://beta.digital-finance-msca.com/people/mathis-jander/"
+        "orcid": "0009-0004-9321-862X",
+        "links": {
+          "ORCID": "https://orcid.org/0009-0004-9321-862X"
+        },
+        "source_url": "https://beta.digital-finance-msca.com/people/mathis-jander/",
+        "orcid_source": "https://zenodo.org/records/24277474"
       }
     },
     {
