@@ -17,7 +17,8 @@
         "research_interests": "Reinforcement Learning, Machine Learning, Time Series, Explainable Artificial Intelligence",
         "orcid": "0009-0004-9321-862X",
         "links": {
-          "ORCID": "https://orcid.org/0009-0004-9321-862X"
+          "ORCID": "https://orcid.org/0009-0004-9321-862X",
+          "GitHub": "https://github.com/mathisjander"
         },
         "source_url": "https://beta.digital-finance-msca.com/people/mathis-jander/",
         "orcid_source": "https://zenodo.org/records/24277474"
@@ -39,7 +40,8 @@
         "orcid": "0009-0006-3277-9794",
         "links": {
           "LinkedIn": "http://www.linkedin.com/in/manuele-massei-b914b2215",
-          "ORCID": "https://orcid.org/0009-0006-3277-9794"
+          "ORCID": "https://orcid.org/0009-0006-3277-9794",
+          "GitHub": "https://github.com/ManueleMassei"
         },
         "source_url": "https://beta.digital-finance-msca.com/people/manuele-massei/"
       }
@@ -66,7 +68,9 @@
         ],
         "research_interests": "Machine Learning, System Design, Mathematics",
         "orcid": "",
-        "links": {},
+        "links": {
+          "GitHub": "https://github.com/Simohamed0"
+        },
         "source_url": "https://beta.digital-finance-msca.com/people/mohamed-faid/"
       }
     },
@@ -102,7 +106,8 @@
         "orcid": "0009-0003-3118-5319",
         "links": {
           "LinkedIn": "https://www.linkedin.com/in/%C5%9Ftefan-g%C4%83man",
-          "ORCID": "https://orcid.org/0009-0003-3118-5319"
+          "ORCID": "https://orcid.org/0009-0003-3118-5319",
+          "GitHub": "https://github.com/StefanGam"
         },
         "source_url": "https://beta.digital-finance-msca.com/people/stefan-gaman/",
         "orcid_source": "https://zenodo.org/records/24194418"
@@ -125,7 +130,8 @@
         "links": {
           "LinkedIn": "https://www.linkedin.com/in/siang-li-jheng-bb3103334/",
           "Google Scholar": "https://scholar.google.com/citations?user=VX_uWzIAAAAJ&hl=zh-TW",
-          "ORCID": "https://orcid.org/0009-0006-2379-4212"
+          "ORCID": "https://orcid.org/0009-0006-2379-4212",
+          "GitHub": "https://github.com/david86888"
         },
         "source_url": "https://beta.digital-finance-msca.com/people/david-siang-li-jheng/"
       }
@@ -147,7 +153,8 @@
         "links": {
           "LinkedIn": "https://www.linkedin.com/in/patriciaevite",
           "Google Scholar": "https://scholar.google.com/citations?user=rJDOs98AAAAJ&hl=en&oi=ao",
-          "ORCID": "https://orcid.org/0009-0005-1487-5021"
+          "ORCID": "https://orcid.org/0009-0005-1487-5021",
+          "GitHub": "https://github.com/pmevite"
         },
         "source_url": "https://beta.digital-finance-msca.com/people/patricia-marcella-evite/",
         "orcid_source": "https://zenodo.org/records/24165581"
@@ -167,7 +174,9 @@
         ],
         "research_interests": "Green AI in finance, Advanced Statistical Modeling, Risk Management",
         "orcid": "",
-        "links": {},
+        "links": {
+          "GitHub": "https://github.com/ismailelbouknify"
+        },
         "source_url": "https://beta.digital-finance-msca.com/people/ismail-elbouknify/"
       }
     },
@@ -187,7 +196,8 @@
         "orcid": "0009-0001-8039-4358",
         "links": {
           "LinkedIn": "https://www.linkedin.com/in/megangjunile/",
-          "ORCID": "https://orcid.org/0009-0001-8039-4358"
+          "ORCID": "https://orcid.org/0009-0001-8039-4358",
+          "GitHub": "https://github.com/Staures92"
         },
         "source_url": "https://beta.digital-finance-msca.com/people/megang-nkamga-junile-staures/",
         "orcid_source": "https://zenodo.org/records/24191657"
@@ -210,7 +220,8 @@
         "links": {
           "LinkedIn": "https://www.linkedin.com/in/rahultak99",
           "Google Scholar": "https://scholar.google.com/citations?user=Qgh7cMQAAAAJ&hl=en",
-          "ORCID": "https://orcid.org/0009-0004-6522-6630"
+          "ORCID": "https://orcid.org/0009-0004-6522-6630",
+          "GitHub": "https://github.com/rahu12t111"
         },
         "source_url": "https://beta.digital-finance-msca.com/people/rahul-tak/",
         "orcid_source": "https://zenodo.org/records/24196056"
@@ -232,7 +243,8 @@
         "orcid": "0009-0000-8503-5269",
         "links": {
           "LinkedIn": "https://www.linkedin.com/in/fulvio-raddi-87893a193/",
-          "ORCID": "https://orcid.org/0009-0000-8503-5269"
+          "ORCID": "https://orcid.org/0009-0000-8503-5269",
+          "GitHub": "https://github.com/fulvior"
         },
         "source_url": "https://beta.digital-finance-msca.com/people/fulvio-raddi/"
       }
@@ -255,7 +267,8 @@
         "links": {
           "LinkedIn": "https://www.linkedin.com/in/owen-chaffard-65ba6120b/",
           "Google Scholar": "https://scholar.google.com/citations?user=jGhPf-wAAAAJ&hl=en",
-          "ORCID": "https://orcid.org/0009-0005-5509-8652"
+          "ORCID": "https://orcid.org/0009-0005-5509-8652",
+          "GitHub": "https://github.com/ochaff"
         },
         "source_url": "https://beta.digital-finance-msca.com/people/owen-chaffard/"
       }
@@ -276,7 +289,8 @@
         "orcid": "0009-0007-8255-4451",
         "links": {
           "ResearchGate": "https://www.researchgate.net/profile/Andrei-Ginavar",
-          "ORCID": "https://orcid.org/0009-0007-8255-4451"
+          "ORCID": "https://orcid.org/0009-0007-8255-4451",
+          "GitHub": "https://github.com/Tdi420"
         },
         "source_url": "https://beta.digital-finance-msca.com/people/andrei-theodor-ginavar/",
         "orcid_source": "https://zenodo.org/records/24198790"
@@ -296,7 +310,9 @@
         ],
         "research_interests": "XAI, Machine Learning, Finance",
         "orcid": "",
-        "links": {},
+        "links": {
+          "GitHub": "https://github.com/jpcreil"
+        },
         "source_url": "https://beta.digital-finance-msca.com/people/jens-reil/"
       }
     },
@@ -314,7 +330,9 @@
         ],
         "research_interests": "AI, Finance, Sustainability",
         "orcid": "",
-        "links": {},
+        "links": {
+          "GitHub": "https://github.com/rebecca-di-francesco-bfh"
+        },
         "source_url": "https://beta.digital-finance-msca.com/people/rebecca-di-francesco/"
       }
     }
