@@ -130,7 +130,7 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | [Reinforcement Learning in Finance: A Systematic Literature Review of Research Frontiers and Methodological Trends](https://zenodo.org/records/24278153) | 1 | 2026 | preprint |
 | [A Technical Introduction to Reinforcement Learning](https://zenodo.org/records/24278254) | 1 | 2024 | other |
 | [Causal Analysis of Financial Time Series Pattern Preservation in Time Series Foundation Models](https://zenodo.org/records/24278430) | 1 | 2026 | conference-paper |
-| [A Survey on Current Practices for Time Series Foundation Model Evaluation](https://zenodo.org/records/24279625) | 1 | 2026 | preprint |
+| [A Survey on Current Practices for Time Series Foundation Model Evaluation](https://zenodo.org/records/24282220) | 1 | 2026 | preprint |
 | Polymarked: Imporving physical density estimation with prediction markets | 14;15;8;7;12 |  | in-progress |
 | Hierarchical Morphology Search | 14 | 2026 | in-progress |
 | Scaling Tabular Foundation Models for Credit Scoring | 14 | 2026 | in-progress |
