@@ -107,7 +107,7 @@ Enable **Settings → Pages → Source → GitHub Actions**. `pages.yml` builds/
 The first paper's citation was verified using [Crossref's DOI record](https://api.crossref.org/works/10.1016/j.knosys.2025.114449) and [Elsevier's article metadata](https://api.elsevier.com/content/article/pii/S0950705125014881). The IRP 14 association was supplied by the author; subject tags are editorial. No working papers were invented to populate the empty section.
 
 <!-- BEGIN RESEARCH -->
-20 publication/preprint record(s); 3 working paper(s).
+20 publication/preprint record(s); 4 working paper(s).
 
 | Title | IRP | Year | Type |
 | --- | --- | --- | --- |
@@ -134,4 +134,5 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | Polymarked: Imporving physical density estimation with prediction markets | 14;15;8;7;12 |  | in-progress |
 | Hierarchical Morphology Search | 14 | 2026 | in-progress |
 | Scaling Tabular Foundation Models for Credit Scoring | 14 | 2026 | in-progress |
+| Resolving the Duplicate-Feature Paradox with ReSHAP: A Redundancy-Weighted Generalization of Shapley Attribution | 16 | 2026 | in-progress |
 <!-- END RESEARCH -->
