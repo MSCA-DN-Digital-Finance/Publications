@@ -107,7 +107,7 @@ Enable **Settings → Pages → Source → GitHub Actions**. `pages.yml` builds/
 The first paper's citation was verified using [Crossref's DOI record](https://api.crossref.org/works/10.1016/j.knosys.2025.114449) and [Elsevier's article metadata](https://api.elsevier.com/content/article/pii/S0950705125014881). The IRP 14 association was supplied by the author; subject tags are editorial. No working papers were invented to populate the empty section.
 
 <!-- BEGIN RESEARCH -->
-20 publication/preprint record(s); 5 working paper(s).
+22 publication/preprint record(s); 5 working paper(s).
 
 | Title | IRP | Year | Type |
 | --- | --- | --- | --- |
@@ -131,6 +131,8 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | [A Technical Introduction to Reinforcement Learning](https://zenodo.org/records/24278254) | 1 | 2024 | other |
 | [Causal Analysis of Financial Time Series Pattern Preservation in Time Series Foundation Models](https://zenodo.org/records/24278430) | 1 | 2026 | conference-paper |
 | [A Survey on Current Practices for Time Series Foundation Model Evaluation](https://zenodo.org/records/24282220) | 1 | 2026 | preprint |
+| [Do Established Cryptocurrency Findings Survive Extended Data?](https://zenodo.org/records/24366570) | 7;8 | 2026 | preprint |
+| [Financial Risk Meters in Taiwan's High-Cap Sectors](https://zenodo.org/records/24366583) | 8 | 2025 | preprint |
 | Polymarked: Imporving physical density estimation with prediction markets | 14;15;8;7;12 |  | in-progress |
 | Hierarchical Morphology Search | 14 | 2026 | in-progress |
 | Scaling Tabular Foundation Models for Credit Scoring | 14 | 2026 | in-progress |
