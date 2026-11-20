@@ -107,7 +107,7 @@ Enable **Settings → Pages → Source → GitHub Actions**. `pages.yml` builds/
 The first paper's citation was verified using [Crossref's DOI record](https://api.crossref.org/works/10.1016/j.knosys.2025.114449) and [Elsevier's article metadata](https://api.elsevier.com/content/article/pii/S0950705125014881). The IRP 14 association was supplied by the author; subject tags are editorial. No working papers were invented to populate the empty section.
 
 <!-- BEGIN RESEARCH -->
-22 publication/preprint record(s); 5 working paper(s).
+30 publication/preprint record(s); 5 working paper(s).
 
 | Title | IRP | Year | Type |
 | --- | --- | --- | --- |
@@ -131,8 +131,16 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | [A Technical Introduction to Reinforcement Learning](https://zenodo.org/records/24278254) | 1 | 2024 | other |
 | [Causal Analysis of Financial Time Series Pattern Preservation in Time Series Foundation Models](https://zenodo.org/records/24278430) | 1 | 2026 | conference-paper |
 | [A Survey on Current Practices for Time Series Foundation Model Evaluation](https://zenodo.org/records/24282220) | 1 | 2026 | preprint |
+| [Sustainability-Related Risks in Credit Risk Modeling: Evidence, Limitations, and the Role of Machine Learning](https://zenodo.org/records/24365791) | 2 | 2026 | preprint |
+| [Integrating Physical Climate Hazards into Real Estate Collateral Valuation; A Stochastic Multi-Hazard Framework](https://zenodo.org/records/24365875) | 2 | 2026 | preprint |
 | [Do Established Cryptocurrency Findings Survive Extended Data?](https://zenodo.org/records/24366570) | 7;8 | 2026 | preprint |
 | [Financial Risk Meters in Taiwan's High-Cap Sectors](https://zenodo.org/records/24366583) | 8 | 2025 | preprint |
+| [Racing the News: Nanosecond Market Efficiency at Eurex and CME](https://zenodo.org/records/24373947) | 12 | 2026 | preprint |
+| [AI Listening to Central Banks: From Words to Markets and Macroeconomic Outcomes](https://zenodo.org/records/24374719) | 12 | 2026 | preprint |
+| [LLM-Driven Stock Prediction: Capturing Market Trends with LLaMA](https://zenodo.org/records/24374971) | 12 | 2025 | other |
+| [Quantlet: the code snippet knowledge platform](https://zenodo.org/records/24376862) | 7 | 2026 | journal-article |
+| [ESG-Aware Asset Selection and Portfolio Optimization: A Comparative Study of Multi-Criteria Decision-Making Methods](https://zenodo.org/records/24377098) | 7;8;12 | 2026 | other |
+| [Do Investors Buy Innovation: Market Responses to Ethereum Development Milestones](https://zenodo.org/records/24377404) | 7 | 2026 | other |
 | Polymarked: Imporving physical density estimation with prediction markets | 14;15;8;7;12 |  | in-progress |
 | Hierarchical Morphology Search | 14 | 2026 | in-progress |
 | Scaling Tabular Foundation Models for Credit Scoring | 14 | 2026 | in-progress |
