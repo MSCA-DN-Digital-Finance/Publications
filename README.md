@@ -107,7 +107,7 @@ Enable **Settings → Pages → Source → GitHub Actions**. `pages.yml` builds/
 The first paper's citation was verified using [Crossref's DOI record](https://api.crossref.org/works/10.1016/j.knosys.2025.114449) and [Elsevier's article metadata](https://api.elsevier.com/content/article/pii/S0950705125014881). The IRP 14 association was supplied by the author; subject tags are editorial. No working papers were invented to populate the empty section.
 
 <!-- BEGIN RESEARCH -->
-30 publication/preprint record(s); 5 working paper(s).
+31 publication/preprint record(s); 5 working paper(s).
 
 | Title | IRP | Year | Type |
 | --- | --- | --- | --- |
@@ -141,6 +141,7 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | [Quantlet: the code snippet knowledge platform](https://zenodo.org/records/24376862) | 7 | 2026 | journal-article |
 | [ESG-Aware Asset Selection and Portfolio Optimization: A Comparative Study of Multi-Criteria Decision-Making Methods](https://zenodo.org/records/24377098) | 7;8;12 | 2026 | other |
 | [Do Investors Buy Innovation: Market Responses to Ethereum Development Milestones](https://zenodo.org/records/24377404) | 7 | 2026 | other |
+| [AI-Based Financial Recommender Systems: A Systematic Review of Methods, Evaluation Practices, and Open Challenges](https://zenodo.org/records/24469999) | 4 | 2026 | preprint |
 | Polymarked: Imporving physical density estimation with prediction markets | 14;15;8;7;12 |  | in-progress |
 | Hierarchical Morphology Search | 14 | 2026 | in-progress |
 | Scaling Tabular Foundation Models for Credit Scoring | 14 | 2026 | in-progress |
