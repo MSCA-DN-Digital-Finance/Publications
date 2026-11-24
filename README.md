@@ -125,7 +125,6 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | [In the beginning was the Word: LLM-VaR and LLM-ES](https://zenodo.org/records/24199360) | 15 | 2026 | journal-article |
 | [Recalibrating Tail Risk Forecasts under Temporal Dependence](https://zenodo.org/records/24199645) | 15 | 2026 | other |
 | [BitMood: AI analysis of Bitcoin trends via Facebook emotions](https://zenodo.org/records/24207689) | 7 | 2026 | journal-article |
-| [Decarbonizing the S&P 500: Sectoral Trade-offs Under Tracking-Error Constraints](https://zenodo.org/records/24275448) | 17 | 2026 | preprint |
 | [Causal Analysis for Time Series Foundation Models](https://zenodo.org/records/24277474) | 1 | 2026 | preprint |
 | [Reinforcement Learning in Finance: A Systematic Literature Review of Research Frontiers and Methodological Trends](https://zenodo.org/records/24278153) | 1 | 2026 | preprint |
 | [A Technical Introduction to Reinforcement Learning](https://zenodo.org/records/24278254) | 1 | 2024 | other |
@@ -142,6 +141,7 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | [ESG-Aware Asset Selection and Portfolio Optimization: A Comparative Study of Multi-Criteria Decision-Making Methods](https://zenodo.org/records/24377098) | 7;8;12 | 2026 | other |
 | [Do Investors Buy Innovation: Market Responses to Ethereum Development Milestones](https://zenodo.org/records/24377404) | 7 | 2026 | other |
 | [AI-Based Financial Recommender Systems: A Systematic Review of Methods, Evaluation Practices, and Open Challenges](https://zenodo.org/records/24469999) | 4 | 2026 | preprint |
+| [Decarbonizing the S&P 500: Sectoral Trade-offs Under Tracking-Error Constraints](https://zenodo.org/records/24470154) | 17 | 2026 | preprint |
 | Polymarked: Imporving physical density estimation with prediction markets | 14;15;8;7;12 |  | in-progress |
 | Hierarchical Morphology Search | 14 | 2026 | in-progress |
 | Scaling Tabular Foundation Models for Credit Scoring | 14 | 2026 | in-progress |

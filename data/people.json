@@ -67,11 +67,13 @@
           "University of Twente"
         ],
         "research_interests": "Machine Learning, System Design, Mathematics",
-        "orcid": "",
+        "orcid": "0009-0006-8698-8479",
         "links": {
+          "ORCID": "https://orcid.org/0009-0006-8698-8479",
           "GitHub": "https://github.com/Simohamed0"
         },
-        "source_url": "https://beta.digital-finance-msca.com/people/mohamed-faid/"
+        "source_url": "https://beta.digital-finance-msca.com/people/mohamed-faid/",
+        "orcid_source": "https://zenodo.org/records/24469999"
       }
     },
     {
@@ -329,11 +331,13 @@
           "Bern University of Applied Sciences (BFH)"
         ],
         "research_interests": "AI, Finance, Sustainability",
-        "orcid": "",
+        "orcid": "0009-0004-5852-7582",
         "links": {
+          "ORCID": "https://orcid.org/0009-0004-5852-7582",
           "GitHub": "https://github.com/rebecca-di-francesco-bfh"
         },
-        "source_url": "https://beta.digital-finance-msca.com/people/rebecca-di-francesco/"
+        "source_url": "https://beta.digital-finance-msca.com/people/rebecca-di-francesco/",
+        "orcid_source": "https://zenodo.org/records/24470154"
       }
     }
   ]
