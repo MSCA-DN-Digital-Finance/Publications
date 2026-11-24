@@ -107,7 +107,7 @@ Enable **Settings → Pages → Source → GitHub Actions**. `pages.yml` builds/
 The first paper's citation was verified using [Crossref's DOI record](https://api.crossref.org/works/10.1016/j.knosys.2025.114449) and [Elsevier's article metadata](https://api.elsevier.com/content/article/pii/S0950705125014881). The IRP 14 association was supplied by the author; subject tags are editorial. No working papers were invented to populate the empty section.
 
 <!-- BEGIN RESEARCH -->
-31 publication/preprint record(s); 8 working paper(s).
+31 publication/preprint record(s); 9 working paper(s).
 
 | Title | IRP | Year | Type |
 | --- | --- | --- | --- |
@@ -150,4 +150,5 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | Evaluating Explainable Artificial Intelligence Methods for Financial Time Series Forecasting | 16 | 2027 | in-progress |
 | Can Large Language Models Construct Risk-Appropriate and Efficient Portfolios? | 16;4 | 2027 | in-progress |
 | [Developing a Scale of Public Explanation Needs for AI-Assisted Financial Applications](https://github.com/MSCA-DN-Digital-Finance/WP3_eXplainable_and_Fair_AI/blob/main/IRP9/Papers/Public_Survey___IRT_Method.pdf) | 9 |  | in-progress |
+| “More than a SHAP chart”: A Ground-Up Evaluation Criteria for Financial Supervisors | 9 |  | in-progress |
 <!-- END RESEARCH -->
