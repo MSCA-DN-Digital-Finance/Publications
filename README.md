@@ -107,7 +107,7 @@ Enable **Settings → Pages → Source → GitHub Actions**. `pages.yml` builds/
 The first paper's citation was verified using [Crossref's DOI record](https://api.crossref.org/works/10.1016/j.knosys.2025.114449) and [Elsevier's article metadata](https://api.elsevier.com/content/article/pii/S0950705125014881). The IRP 14 association was supplied by the author; subject tags are editorial. No working papers were invented to populate the empty section.
 
 <!-- BEGIN RESEARCH -->
-31 publication/preprint record(s); 10 working paper(s).
+31 publication/preprint record(s); 11 working paper(s).
 
 | Title | IRP | Year | Type |
 | --- | --- | --- | --- |
@@ -152,4 +152,5 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | [Developing a Scale of Public Explanation Needs for AI-Assisted Financial Applications](https://github.com/MSCA-DN-Digital-Finance/WP3_eXplainable_and_Fair_AI/blob/main/IRP9/Papers/Public_Survey___IRT_Method.pdf) | 9 |  | in-progress |
 | “More than a SHAP chart”: A Ground-Up Evaluation Criteria for Financial Supervisors | 9 |  | in-progress |
 | [Reciprocity Propensity Scores: An ML-based Framework for Non-monetary Economies](https://github.com/MSCA-DN-Digital-Finance/WP3_eXplainable_and_Fair_AI/blob/main/IRP9/Papers/Sarafu_Reciprocity_Score_WIP_Proposal.pdf) | 9 |  | in-progress |
+| Explainable AI is a deadend: The Case for Open-Access Mandates and CopyLeft AI | 9 |  | idea |
 <!-- END RESEARCH -->
