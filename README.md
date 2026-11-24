@@ -145,7 +145,7 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | Polymarked: Imporving physical density estimation with prediction markets | 14;15;8;7;12 |  | in-progress |
 | Hierarchical Morphology Search | 14 | 2026 | in-progress |
 | Scaling Tabular Foundation Models for Credit Scoring | 14 | 2026 | in-progress |
-| Resolving the Duplicate-Feature Paradox with ReSHAP: A Redundancy-Weighted Generalization of Shapley Attribution | 16 | 2026 | in-progress |
+| Resolving the Duplicate-Feature Paradox with ReSHAP: A Redundancy-Weighted Generalization of Shapley Attribution | 16 | 2026 | under-review |
 | Applications of Interpretable and Explainable Machine Learning in Insurance Pricing | 16 | 2026 | under-review |
 | Evaluating Explainable Artificial Intelligence Methods for Financial Time Series Forecasting | 16 | 2027 | in-progress |
 | Can Large Language Models Construct Risk-Appropriate and Efficient Portfolios? | 16;4 | 2027 | in-progress |
