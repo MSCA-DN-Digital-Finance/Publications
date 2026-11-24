@@ -107,7 +107,7 @@ Enable **Settings → Pages → Source → GitHub Actions**. `pages.yml` builds/
 The first paper's citation was verified using [Crossref's DOI record](https://api.crossref.org/works/10.1016/j.knosys.2025.114449) and [Elsevier's article metadata](https://api.elsevier.com/content/article/pii/S0950705125014881). The IRP 14 association was supplied by the author; subject tags are editorial. No working papers were invented to populate the empty section.
 
 <!-- BEGIN RESEARCH -->
-31 publication/preprint record(s); 5 working paper(s).
+31 publication/preprint record(s); 6 working paper(s).
 
 | Title | IRP | Year | Type |
 | --- | --- | --- | --- |
@@ -147,4 +147,5 @@ The first paper's citation was verified using [Crossref's DOI record](https://ap
 | Scaling Tabular Foundation Models for Credit Scoring | 14 | 2026 | in-progress |
 | Resolving the Duplicate-Feature Paradox with ReSHAP: A Redundancy-Weighted Generalization of Shapley Attribution | 16 | 2026 | in-progress |
 | Applications of Interpretable and Explainable Machine Learning in Insurance Pricing | 16 | 2026 | under-review |
+| Evaluating Explainable Artificial Intelligence Methods for Financial Time Series Forecasting | 16 | 2027 | in-progress |
 <!-- END RESEARCH -->
